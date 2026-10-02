@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="ko" class="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>전지웅 포트폴리오</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ffffff;--surface:#f4f9fd;--chip:#eaf3fb;--line:#d8e6f2;--ink:#0d2436;--body:#3d5b73;--muted:#7791a6;--accent:#1177cf;--accent-soft:#6cb8ea;--icon-tint:grayscale(1) brightness(.42) sepia(1) hue-rotate(167deg) saturate(4.2)}
+.dark{--bg:#071726;--surface:#0d2338;--chip:#122c44;--line:#1d3a53;--ink:#e6f1fa;--body:#a7c2d8;--muted:#7e9bb2;--accent:#4fb1f0;--accent-soft:#8fd2ff;--icon-tint:grayscale(1) brightness(1.75) sepia(.55) hue-rotate(172deg) saturate(2.4)}
+html{scroll-padding-top:4rem;scroll-behavior:smooth}
+body{margin:0;color:var(--ink);background:var(--bg);font-family:"Gothic A1","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;letter-spacing:-.02em;word-break:keep-all;overflow-x:clip;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+::selection{background:var(--accent);color:#fff}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes drift-a{from{transform:translate(0,0) scale(1)}to{transform:translate(44px,32px) scale(1.12)}}
+@keyframes drift-b{from{transform:translate(0,0) scale(1.06)}to{transform:translate(-38px,-40px) scale(1)}}
+@keyframes drift-c{from{transform:translate(0,0) scale(1)}to{transform:translate(26px,-30px) scale(1.1)}}
+@keyframes slide-up{from{opacity:0;transform:translateY(80px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scroll-hint{0%{transform:translateY(-6px);opacity:.35}50%{transform:translateY(6px);opacity:1}100%{transform:translateY(-6px);opacity:.35}}
+[data-su].su{opacity:0}
+[data-su].su-in{animation:slide-up .6s ease-out .1s both}
+#role-suffix{display:none}
+@media (min-width:768px){#role-suffix{display:inline}}
+@media (min-width:520px){#head-nav{gap:20px}#head-nav a{font-size:14px}}
+.pcard{display:flex;flex-direction:column;gap:16px;padding:24px}
+@media (min-width:840px){
+.pcard{padding:32px}
+#prj-list{gap:64px}
+#prj-list>article{width:78%}
+#prj-list>article:nth-child(even){margin-left:auto}
+}
+#prj-drawer{scrollbar-width:none}
+#prj-drawer::-webkit-scrollbar{display:none}
+@media (max-width:600px){[data-rmetric]{display:none!important}[data-lrow]{grid-template-columns:1fr!important;gap:10px!important}[data-dpad]{padding-left:20px!important;padding-right:20px!important}[data-dmar]{margin-left:20px!important;margin-right:20px!important}}
+@media (prefers-reduced-motion: reduce){[data-su].su-in{animation:none;opacity:1}[style*="drift-"],[style*="rise "]{animation:none!important;opacity:1!important}}
+</style>
+
+</head><body>
+
+<div style="min-width:360px">
+
+  <header style="position:sticky;top:0;z-index:50;width:100%;height:64px;padding:0 24px;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid {{ headerBorder }};background:{{ headerBg }};transition:background-color .3s,border-color .3s">
+    <a href="#top" onClick="{{ scrollTop }}" style="display:flex;align-items:center;flex-shrink:0;color:inherit">
+      <p style="margin:0;font-size:16px;line-height:1;white-space:nowrap"><span style="font-weight:800;color:var(--ink)">전지웅</span><span id="role-suffix" style="font-weight:400;color:var(--muted)"> | 백엔드 개발자</span></p>
+    </a>
+    <nav id="head-nav" aria-label="섹션 내비게이션" style="display:flex;align-items:center;gap:12px;min-width:0">
+      <a href="#experience" style="font-size:13px;font-weight:600;white-space:nowrap;color:{{ nav.exp }};transition:color .15s" style-hover="color:var(--accent)">경력</a>
+      <a href="#project" style="font-size:13px;font-weight:600;white-space:nowrap;color:{{ nav.prj }};transition:color .15s" style-hover="color:var(--accent)">프로젝트</a>
+      <a href="#skills" style="font-size:13px;font-weight:600;white-space:nowrap;color:{{ nav.skl }};transition:color .15s" style-hover="color:var(--accent)">기술</a>
+      <a href="#education" style="font-size:13px;font-weight:600;white-space:nowrap;color:{{ nav.edu }};transition:color .15s" style-hover="color:var(--accent)">교육</a>
+    </nav>
+
+    <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+      <button type="button" onClick="{{ toggleTheme }}" aria-label="{{ themeLabel }}" title="{{ themeLabel }}" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;padding:0;border-radius:9px;background:none;border:1px solid var(--line);color:var(--muted);cursor:pointer" style-hover="color:var(--accent);border-color:var(--accent)">
+        <span style="display:{{ sunDisplay }};line-height:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></span>
+        <span style="display:{{ moonDisplay }};line-height:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
+      </button>
+      <a href="https://github.com/JJW0123" target="_blank" rel="noopener noreferrer" aria-label="GitHub" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;border:1px solid var(--line);color:var(--muted)" style-hover="color:var(--accent);border-color:var(--accent)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+      </a>
+    </div>
+  </header>
+
+  <main style="width:100%;max-width:1024px;margin:0 auto;padding:0 clamp(20px,3vw,40px);box-sizing:border-box;display:flex;flex-direction:column;align-items:center;position:relative">
+
+    <div id="main" style="position:relative;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:96px 0 120px;min-height:clamp(560px,76vh,960px)">
+      <div aria-hidden="true" style="position:absolute;top:-64px;bottom:0;left:50%;transform:translateX(-50%);width:100vw;overflow:hidden;z-index:0">
+        <div style="position:absolute;border-radius:9999px;pointer-events:none;filter:blur(100px);width:min(600px,68vw);height:min(600px,68vw);top:-14%;left:4%;background:rgb(17 119 207 / .22);animation:drift-a 24s ease-in-out infinite alternate"></div>
+        <div style="position:absolute;border-radius:9999px;pointer-events:none;filter:blur(100px);width:min(580px,66vw);height:min(580px,66vw);top:6%;right:2%;background:rgb(108 184 234 / .3);animation:drift-b 28s ease-in-out infinite alternate"></div>
+        <div style="position:absolute;border-radius:9999px;pointer-events:none;filter:blur(100px);width:min(500px,58vw);height:min(500px,58vw);bottom:-18%;left:30%;background:rgb(199 230 250 / .5);animation:drift-c 32s ease-in-out infinite alternate"></div>
+        <div style="position:absolute;left:0;right:0;bottom:0;height:46%;pointer-events:none;background:linear-gradient(to bottom,rgb(0 0 0 / 0) 0%,var(--bg) 82%,var(--bg) 100%)"></div>
+      </div>
+
+      <h1 style="position:relative;z-index:10;width:100%;margin:0;padding:24px 8px;box-sizing:border-box;text-align:center;font-size:clamp(30px,4.4vw,46px);font-weight:700;line-height:1.2;color:var(--ink);animation:rise .6s cubic-bezier(.22,1,.36,1) .4s both">안녕하세요,<br>백엔드 개발자<br><em style="font-style:normal;color:var(--accent)">전지웅</em>입니다.</h1>
+
+      <p style="position:relative;z-index:10;margin:8px 0 0;text-align:center;font-size:16px;line-height:1.75;word-break:keep-all;color:var(--body);animation:rise .6s cubic-bezier(.22,1,.36,1) 1.2s both">운영 지표를 보고 원인을 찾아 설계와 구현으로 해결해 왔습니다.<br>백엔드가 주 분야이고, AI·비전과 게임 개발도 경험했습니다.</p>
+
+      <div style="position:relative;z-index:10;margin-top:44px;display:flex;justify-content:center;animation:rise .6s cubic-bezier(.22,1,.36,1) 1.6s both">
+        <a href="#experience" aria-label="아래로 스크롤" style="display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:9999px;color:var(--accent)" style-hover="color:var(--ink)">
+          <span style="display:flex;line-height:0;animation:scroll-hint 2s ease-in-out infinite"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 10 12 16 18 10"></polyline></svg></span>
+        </a>
+      </div>
+    </div>
+
+    <section id="intro" style="width:100%;padding:72px 0 112px">
+      <div data-su>
+        <p style="margin:0 0 6px;text-align:center;font-size:16px;font-weight:600;color:var(--accent)">핵심 역량</p>
+        <p style="margin:0 0 48px;text-align:center;font-size:24px;font-weight:600;word-break:keep-all;color:var(--ink)">제가 문제를 다루는 방식입니다.</p>
+        <ul style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:20px">
+          <li data-su style="display:flex;flex-direction:column;gap:12px;padding:24px;border-radius:8px;border:1px solid var(--line);background:var(--surface)">
+            <span style="font-size:14px;font-weight:800;color:var(--accent)">01</span>
+            <p style="margin:0;font-size:18px;font-weight:700;color:var(--ink)">지표부터 확인합니다</p>
+            <p style="margin:0;font-size:14px;line-height:1.75;color:var(--body)">가상 주식 시뮬레이션은 요청량이 많아 어디가 느린지 짐작으로 판단할 수 없었습니다. Prometheus·Grafana로 RPS와 응답 지연, 오류율을 먼저 쌓아 두고 개선 지점을 정했습니다. 평균 14 RPS, 최대 219 RPS 구간에서 API p95 약 23ms, 5xx 오류율 0.0011%를 유지했습니다.</p>
+            <a href="#project" onClick="{{ openStock }}" style="margin-top:auto;padding-top:6px;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700">가상 주식 시뮬레이션 보기 <span aria-hidden="true">→</span></a>
+          </li>
+          <li data-su style="display:flex;flex-direction:column;gap:12px;padding:24px;border-radius:8px;border:1px solid var(--line);background:var(--surface)">
+            <span style="font-size:14px;font-weight:800;color:var(--accent)">02</span>
+            <p style="margin:0;font-size:18px;font-weight:700;color:var(--ink)">동시 요청은 설계로 막습니다</p>
+            <p style="margin:0;font-size:14px;line-height:1.75;color:var(--body)">같은 자원에 요청이 겹치는 지점을 먼저 찾고, 코드 흐름이 아니라 락과 키 제약으로 막았습니다. 모의 매매의 동시 주문에는 낙관적 락과 복합 키를, 무인 지게차의 작업 상태 전이에는 조건부 UPDATE를 적용했습니다.</p>
+            <a href="#project" onClick="{{ openFast }}" style="margin-top:auto;padding-top:6px;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700">무인 지게차 프로젝트 보기 <span aria-hidden="true">→</span></a>
+          </li>
+          <li data-su style="display:flex;flex-direction:column;gap:12px;padding:24px;border-radius:8px;border:1px solid var(--line);background:var(--surface)">
+            <span style="font-size:14px;font-weight:800;color:var(--accent)">03</span>
+            <p style="margin:0;font-size:18px;font-weight:700;color:var(--ink)">결과를 다시 확인합니다</p>
+            <p style="margin:0;font-size:14px;line-height:1.75;color:var(--body)">좋게 나온 숫자를 그대로 쓰지 않았습니다. 무인 지게차에서는 모델의 예측을 참고하지 않고 정답 데이터를 다시 작성해 검출 성능을 재평가했고, 비전 AI 챌린지에서는 시드와 하이퍼파라미터를 고정해 30회 실험을 같은 조건에서 비교했습니다.</p>
+            <a href="#project" onClick="{{ openVision }}" style="margin-top:auto;padding-top:6px;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700">비전 AI 챌린지 보기 <span aria-hidden="true">→</span></a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="experience" style="width:100%;padding:72px 0 112px;scroll-margin-top:64px">
+      <div data-su>
+        <h2 style="margin:0 0 6px;text-align:center;font-size:16px;font-weight:600;color:var(--accent)">경력 사항</h2>
+        <p style="margin:0 0 48px;text-align:center;font-size:24px;font-weight:600;word-break:keep-all;color:var(--ink)">백엔드 아키텍처와 API 설계를 담당했습니다.</p>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:12px 40px;align-items:start">
+          <div style="display:flex;gap:10px;align-items:center;justify-content:flex-end;color:var(--accent)">
+            <p style="margin:0;font-size:15px;color:var(--muted)">2023.06 — 2023.12</p>
+          </div>
+          <div style="grid-column:span 2;display:flex;flex-direction:column;gap:12px;min-width:0">
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <p style="margin:0;font-size:18px;font-weight:700;color:var(--ink)">애드캡슐소프트 · 백엔드 인턴</p>
+              <p style="margin:0;font-size:14px;line-height:1.7;color:var(--body)">내부 관리자 시스템과 공식 웹사이트 개선 프로젝트의 백엔드 아키텍처·API 담당. 약 60페이지 화면정의서를 6개 도메인으로 분류하고 39개 테이블 규모의 정규화 ERD와 DB 정의서를 설계했습니다.</p>
+            </div>
+            <ul style="margin:0;padding:0;display:flex;gap:8px;list-style:none;flex-wrap:wrap">
+              <li><span style="display:inline-flex;align-items:center;gap:6px;padding:5px 10px 5px 6px;border-radius:6px;background:var(--chip)"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="" width="16" height="16" style="display:block"><span style="font-size:12px;font-weight:600;color:var(--body)">Java</span></span></li>
+              <li><span style="display:inline-flex;align-items:center;gap:6px;padding:5px 10px 5px 6px;border-radius:6px;background:var(--chip)"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" alt="" width="16" height="16" style="display:block"><span style="font-size:12px;font-weight:600;color:var(--body)">Spring Boot</span></span></li>
+              <li><span style="display:inline-flex;align-items:center;gap:6px;padding:5px 10px 5px 6px;border-radius:6px;background:var(--chip)"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="" width="16" height="16" style="display:block"><span style="font-size:12px;font-weight:600;color:var(--body)">MySQL</span></span></li>
+            </ul>
+            <p style="margin:4px 0 -4px;font-size:13px;font-weight:700;letter-spacing:.08em;color:var(--accent)">담당 업무</p>
+            <sc-if value="{{ exp.work }}">
+              <ul style="margin:0;padding:0 0 0 18px;list-style:disc;display:flex;flex-direction:column;gap:7px">
+                <li style="font-size:14px;line-height:1.7;color:var(--body)">관리자·권한·공통코드, 메뉴, 프로젝트, 뉴스, 채용, 문의 6개 도메인으로 화면정의서 분류</li>
+                <li style="font-size:14px;line-height:1.7;color:var(--body)">PK/FK와 필수값 제약을 포함한 39개 테이블 정규화 ERD 및 DB 정의서 설계</li>
+                <li style="font-size:14px;line-height:1.7;color:var(--body)">계층형 메뉴·공통코드 관리 기능과 동적 검색·필터링 구현</li>
+                <li style="font-size:14px;line-height:1.7;color:var(--body)">최대 50MB, PDF/PPT/ZIP 화이트리스트를 적용한 파일 업로드 검증 구현</li>
+                <li style="font-size:14px;line-height:1.7;color:var(--body)">필수값 누락·용량 초과 예외의 HTTP 상태 코드와 JSON 오류 응답 규칙 설계</li>
+                <li style="font-size:14px;line-height:1.7;color:var(--body)">프론트엔드 인턴과 API·오류 응답 규칙 연동</li>
+              </ul>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="project" style="width:100%;padding:72px 0 112px;scroll-margin-top:64px">
+      <div data-su>
+        <h2 style="margin:0 0 6px;text-align:center;font-size:16px;font-weight:600;color:var(--accent)">프로젝트</h2>
+        <p style="margin:0 0 48px;text-align:center;font-size:24px;font-weight:600;word-break:keep-all;color:var(--ink)">직접 만들고 운영한 프로젝트입니다.</p>
+        <div style="border-top:1px solid var(--line)">
+          <sc-for list="{{ prjRows }}" as="p" hint-placeholder-count="5">
+            <button type="button" id="{{ p.anchor }}" onClick="{{ p.open }}" style="all:unset;box-sizing:border-box;width:100%;cursor:pointer;display:grid;grid-template-columns:44px minmax(0,1fr) auto 20px;align-items:center;gap:20px;padding:22px 8px;border-bottom:1px solid var(--line);scroll-margin-top:88px;transition:background-color .15s" style-hover="background:var(--surface)">
+              <span style="font-size:22px;font-weight:800;line-height:1;color:var(--accent);opacity:{{ p.numOpacity }}">{{ p.num }}</span>
+              <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+                <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 10px">
+                  <span style="font-size:18px;font-weight:700;word-break:keep-all;color:var(--ink)">{{ p.title }}</span>
+                  <sc-if value="{{ p.badge }}"><span style="font-size:12px;font-weight:600;padding:3px 9px;border-radius:6px;background:var(--chip);color:var(--accent)">{{ p.badge }}</span></sc-if>
+                </div>
+                <span style="font-size:13px;color:var(--muted)">{{ p.metaShort }}</span>
+              </div>
+              <sc-if value="{{ p.firstMetric }}"><div data-rmetric style="display:flex;flex-direction:column;align-items:flex-end;gap:2px"><span style="font-size:12px;color:var(--muted)">{{ p.firstMetric.k }}</span><span style="font-size:15px;font-weight:700;color:var(--ink)">{{ p.firstMetric.v }}</span></div></sc-if>
+              <span aria-hidden="true" style="display:flex;justify-content:center;font-size:17px;color:var(--muted);transition:transform .2s;transform:{{ p.iconTf }}">→</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" style="width:100%;padding:72px 0 112px;scroll-margin-top:64px">
+      <div data-su>
+        <h2 style="margin:0 0 6px;text-align:center;font-size:16px;font-weight:600;color:var(--accent)">기술 스택</h2>
+        <p style="margin:0 0 48px;text-align:center;font-size:24px;font-weight:600;word-break:keep-all;color:var(--ink)">프로젝트에서 직접 사용한 기술입니다.</p>
+
+        <div style="display:flex;flex-direction:column;gap:32px">
+          <div>
+            <p style="margin:0 0 14px;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">Backend</p>
+            <ul style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:12px">
+              <li style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface)"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="" width="30" height="30" style="display:block"><span style="font-size:12px;font-weight:600;color:var(--body);text-align:center">Java 17/21</span></li>
+              <li style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface)"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" alt="" width="30" height="30" style="display:block"><span style="font-size:12px;font-weight:600;color:var(--body);text-align:center">Spring Boot</span></li>
+              <li style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface)"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="" width="30" height="30" style="display:block"><span style="font-size:12px;font-weight:600;color:var(--body);text-align:center">MySQL</span></li>
+              <li style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface)"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg" alt="" width="30" height="30" style="display:block"><span style="font-size:12px;font-weight:600;color:var(--body);text-align:center">Redis</span></li>
+              <li style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface)"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swagger/swagger-original.svg" alt="" width="30" height="30" style="display:block"><span style="font-size:12px;font-weight:600;color:var(--body);text-align:center">Swagger</span></li>
+              <li style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface)"><img src="https://cdn.simpleicons.org/jsonwebtokens/D63AFF" alt="" width="30" height="30" style="display:block"><span style="font-size:12px;font-weight:600;color:var(--body);text-align:center">JWT</span></li>
+            </ul>
+          </div>
+
+          <div>
+            <p style="margin:0 0 14px;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">Infra</p>
+            <ul style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:12px">
+              <li style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface)"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="" width="30" height="30" style="display:block"><span style="font-size:12px;font-weight:600;color:var(--body);text-align:center">Docker Compose</span></li>
+              <li style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface)"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg" alt="" width="30" height="30" style="display:block"><span style="font-size:12px;font-weight:600;color:var(--body);text-align:center">Nginx</span></li>
+              <li style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface)"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/oracle/oracle-original.svg" alt="" width="30" height="30" style="display:block"><span style="font-size:12px;font-weight:600;color:var(--body);text-align:center">Oracle Cloud VM</span></li>
+              <li style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface)"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="" width="30" height="30" style="display:block"><span style="font-size:12px;font-weight:600;color:var(--body);text-align:center">AWS EC2 · S3</span></li>
+              <li style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface)"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/prometheus/prometheus-original.svg" alt="" width="30" height="30" style="display:block"><span style="font-size:12px;font-weight:600;color:var(--body);text-align:center">Prometheus</span></li>
+              <li style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface)"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/grafana/grafana-original.svg" alt="" width="30" height="30" style="display:block"><span style="font-size:12px;font-weight:600;color:var(--body);text-align:center">Grafana Cloud</span></li>
+              <li style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface)"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg" alt="" width="30" height="30" style="display:block"><span style="font-size:12px;font-weight:600;color:var(--body);text-align:center">Firebase</span></li>
+            </ul>
+          </div>
+
+          <div>
+            <p style="margin:0 0 14px;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">AI · Vision</p>
+            <ul style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:12px">
+              <li style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface)"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="" width="30" height="30" style="display:block"><span style="font-size:12px;font-weight:600;color:var(--body);text-align:center">Python</span></li>
+              <li style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface)"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg" alt="" width="30" height="30" style="display:block"><span style="font-size:12px;font-weight:600;color:var(--body);text-align:center">PyTorch</span></li>
+              <li style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface)"><span aria-hidden="true" style="display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;font-size:24px;line-height:1">🤗</span><span style="font-size:12px;font-weight:600;color:var(--body);text-align:center">Hugging Face</span></li>
+            </ul>
+          </div>
+
+          <div>
+            <p style="margin:0 0 14px;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">AIoT · Game</p>
+            <ul style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:12px">
+              <li style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface)"><img src="https://cdn.simpleicons.org/mqtt/660066" alt="" width="30" height="30" style="display:block"><span style="font-size:12px;font-weight:600;color:var(--body);text-align:center">MQTT</span></li>
+              <li style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface)"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="" width="30" height="30" style="display:block"><span style="font-size:12px;font-weight:600;color:var(--body);text-align:center">C#</span></li>
+              <li style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface)"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/unity/unity-original.svg" alt="" width="30" height="30" style="display:block"><span style="font-size:12px;font-weight:600;color:var(--body);text-align:center">Unity</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="education" style="width:100%;padding:72px 0 112px;scroll-margin-top:64px">
+      <div data-su>
+        <h2 style="margin:0 0 48px;text-align:center;font-size:16px;font-weight:600;color:var(--accent)">교육 및 자격</h2>
+
+        <div style="display:flex;flex-direction:column;gap:36px">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:12px 40px;align-items:start">
+            <p style="margin:0;text-align:right;font-size:15px;color:var(--muted)">2026.01 — 2026.12</p>
+            <div style="grid-column:span 2;display:flex;flex-direction:column;gap:8px;min-width:0">
+              <div style="display:flex;flex-direction:column;gap:4px">
+                <p style="margin:0;font-size:18px;font-weight:700;color:var(--ink)">삼성 청년 SW·AI 아카데미(SSAFY)</p>
+                <p style="margin:0;font-size:15px;color:var(--body)">수료 예정</p>
+              </div>
+              <ul style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px">
+                <li style="font-size:14px;line-height:1.7;color:var(--body)">Java 웹 개발, AI 활용, RAG 파이프라인, 알고리즘·CS</li>
+                <li style="font-size:14px;line-height:1.7;color:var(--body)">무인 지게차 물류 자동화, 비전 AI 파인튜닝 챌린지 수행</li>
+              </ul>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:12px 40px;align-items:start">
+            <p style="margin:0;text-align:right;font-size:15px;color:var(--muted)">2025.02 졸업</p>
+            <div style="grid-column:span 2;display:flex;flex-direction:column;gap:8px;min-width:0">
+              <div style="display:flex;flex-direction:column;gap:4px">
+                <p style="margin:0;font-size:18px;font-weight:700;color:var(--ink)">명지전문대학 전공심화 컴퓨터공학과 학사</p>
+                <p style="margin:0;font-size:15px;color:var(--body)">학점 4.0 / 4.5</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="width:100%;max-width:600px;height:1px;margin:0 auto;background:linear-gradient(to right,transparent,var(--line),transparent)"></div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:12px 40px;align-items:start">
+            <p style="margin:0;text-align:right;font-size:15px;color:var(--muted)">2024.12.11</p>
+            <div style="grid-column:span 2;display:flex;flex-direction:column;gap:4px;min-width:0">
+              <p style="margin:0;font-size:18px;font-weight:700;color:var(--ink)">정보처리기사</p>
+              <p style="margin:0;font-size:15px;color:var(--body)">한국산업인력공단</p>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:12px 40px;align-items:start">
+            <p style="margin:0;text-align:right;font-size:15px;color:var(--muted)">2026.04.18</p>
+            <div style="grid-column:span 2;display:flex;flex-direction:column;gap:4px;min-width:0">
+              <p style="margin:0;font-size:18px;font-weight:700;color:var(--ink)">TOEIC Speaking IM3</p>
+              <p style="margin:0;font-size:15px;color:var(--body)">한국TOEIC위원회</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="width:100%;padding:88px 0 104px">
+      <div data-su>
+        <p style="margin:0 0 28px;text-align:center;font-size:30px;font-weight:700;line-height:1.45;word-break:keep-all;color:var(--ink)">감사합니다<br>더 궁금한 점이 있다면<br>편하게 연락주세요</p>
+        <div style="width:340px;max-width:100%;margin:0 auto;display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px 16px;padding:24px 28px;box-sizing:border-box;border-radius:8px;border:1px solid var(--line);background:var(--surface);font-size:15px">
+          <p style="margin:0;font-weight:700;color:var(--ink)">이메일</p>
+          <p style="margin:0;overflow-wrap:anywhere"><a href="mailto:wjswldnd2000@naver.com">wjswldnd2000@naver.com</a></p>
+          <p style="margin:0;font-weight:700;color:var(--ink)">GitHub</p>
+          <p style="margin:0"><a href="https://github.com/JJW0123" target="_blank" rel="noopener noreferrer">@JJW0123</a></p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div onClick="{{ xd.close }}" style="position:fixed;inset:0;z-index:60;background:rgb(7 23 38 / .45);transition:opacity .25s;opacity:{{ xd.ov }};pointer-events:{{ xd.pe }}"></div>
+        <div id="prj-drawer" ref="{{ drRef }}" onScroll="{{ drScroll }}" role="dialog" aria-modal="true" aria-label="{{ D.title }}" style="position:fixed;top:12px;right:12px;bottom:12px;width:min(720px,calc(100vw - 24px));z-index:61;overflow:auto;border-radius:12px;background:var(--bg);box-shadow:0 24px 60px rgb(7 23 38 / .25);transition:transform .4s cubic-bezier(.22,1,.36,1),visibility 0s linear {{ xd.visDelay }};transform:{{ xd.tf }};visibility:{{ xd.vis }}">
+          <div id="drawer-header" data-dpad style="position:sticky;top:0;z-index:3;background:#0d2436;padding:24px 48px;display:flex;flex-direction:column;gap:24px;box-shadow:0 4px 16px rgb(7 23 38 / .12)">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:16px">
+              <div style="display:flex;flex-direction:column;gap:10px;min-width:0">
+                <sc-if value="{{ D.badge }}"><span style="align-self:flex-start;font-size:12px;font-weight:700;color:#4fb1f0">{{ D.badge }}</span></sc-if>
+                <h3 style="margin:0;font-size:28px;font-weight:800;line-height:1.28;letter-spacing:-.04em;color:#fff;word-break:keep-all;text-wrap:balance">{{ D.title }}</h3>
+                <p style="margin:0;font-size:13px;line-height:1.6;color:#a7c2d8">{{ D.meta }}</p>
+              </div>
+              <button type="button" onClick="{{ xd.close }}" aria-label="닫기" style="all:unset;flex:0 0 auto;align-self:flex-start;cursor:pointer;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:rgb(255 255 255 / .1);font-size:18px;color:#fff" style-hover="background:rgb(255 255 255 / .22)">×</button>
+            </div>
+            <div aria-hidden="true" style="position:absolute;left:0;bottom:0;height:3px;width:{{ prog }};background:#4fb1f0;transition:width .1s linear"></div>
+          </div>
+          <div data-dpad style="padding:8px 48px 0;display:flex;flex-direction:column">
+            
+              <div style="padding:28px 0 24px;display:flex;flex-direction:column;gap:24px">
+                <div style="display:flex;flex-direction:column;gap:14px">
+                  <sc-if value="{{ med.isImg }}"><img src="{{ med.src }}" alt="" style="width:100%;aspect-ratio:16/10;object-fit:cover;display:block;border-radius:8px;background:var(--surface)"></sc-if>
+                  <sc-if value="{{ med.isVid }}"><video src="{{ med.src }}" poster="{{ med.poster }}" controls muted playsinline preload="metadata" style="width:100%;aspect-ratio:16/10;object-fit:contain;display:block;border-radius:8px;background:#000"></video></sc-if>
+                  <sc-if value="{{ med.none }}"><div style="aspect-ratio:16/9;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;padding:16px"><span style="font-size:12px;color:var(--muted);text-align:center">{{ D.mediaText }}</span></div></sc-if>
+                  <sc-if value="{{ hasThumbs }}">
+                    <div style="display:flex;gap:14px;align-items:flex-start">
+                      <div style="flex:0 1 auto;min-width:0;max-width:60%;overflow-x:auto;display:flex;gap:8px;padding:3px">
+                        <sc-for list="{{ thumbs }}" as="th"><button type="button" onClick="{{ th.pick }}" aria-label="{{ th.label }}" style="all:unset;cursor:pointer;flex:0 0 auto;position:relative;width:88px;height:55px;border-radius:6px;overflow:hidden;outline:2px solid {{ th.ring }};outline-offset:2px;opacity:{{ th.op }};transition:opacity .2s"><img src="{{ th.poster }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"><sc-if value="{{ th.isVid }}"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgb(7 23 38 / .45);color:#fff;font-size:14px">▶</span></sc-if></button></sc-for>
+                      </div>
+                      <p style="flex:1;min-width:0;margin:0;font-size:13px;line-height:1.6;word-break:keep-all;color:var(--muted)">{{ med.cap }}</p>
+                    </div>
+                  </sc-if>
+                </div>
+                <sc-if value="{{ D.hasMetrics }}"><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:20px"><sc-for list="{{ D.metrics }}" as="m"><div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:24px;font-weight:800;letter-spacing:-.03em;color:var(--ink)">{{ m.v }}</span><span style="font-size:13px;color:var(--muted)">{{ m.k }}</span></div></sc-for></div></sc-if><sc-if value="{{ D.metricNote }}"><p style="margin:0;font-size:12px;line-height:1.6;word-break:keep-all;color:var(--muted)">{{ D.metricNote }}</p></sc-if>
+              </div>
+              <div data-lrow style="display:grid;grid-template-columns:112px minmax(0,1fr);gap:20px;padding:24px 0;border-top:1px solid var(--line)">
+                <p style="margin:0;padding-top:3px;font-size:13px;font-weight:700;color:var(--accent)">프로젝트 소개</p>
+                <p style="margin:0;font-size:17px;font-weight:500;line-height:1.75;letter-spacing:-.025em;word-break:keep-all;color:var(--ink)">{{ D.summary }}</p>
+              </div>
+              <div data-lrow style="display:grid;grid-template-columns:112px minmax(0,1fr);gap:20px;padding:24px 0;border-top:1px solid var(--line)">
+                <p style="margin:0;padding-top:6px;font-size:13px;font-weight:700;color:var(--accent)">사용 기술</p>
+                <ul style="margin:0;padding:0;display:flex;gap:8px;list-style:none;flex-wrap:wrap">
+                  <sc-for list="{{ D.stack }}" as="t"><li style="display:inline-flex;align-items:center;gap:7px;padding:6px 11px 6px 8px;border-radius:6px;border:1px solid var(--line)"><sc-if value="{{ t.i }}"><img src="{{ t.i }}" alt="" width="16" height="16" style="display:block"></sc-if><sc-if value="{{ t.abbr }}"><span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:4px;background:var(--accent-soft);color:var(--bg);font-size:9px;font-weight:800">{{ t.abbr }}</span></sc-if><span style="font-size:13px;font-weight:600;color:var(--ink)">{{ t.n }}</span></li></sc-for>
+                </ul>
+              </div>
+              <sc-if value="{{ D.hasLinks }}">
+                <div data-lrow style="display:grid;grid-template-columns:112px minmax(0,1fr);gap:20px;padding:24px 0;border-top:1px solid var(--line)">
+                  <p style="margin:0;padding-top:1px;font-size:13px;font-weight:700;color:var(--accent)">링크</p>
+                  <div style="display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline"><sc-for list="{{ D.links }}" as="l"><a href="{{ l.href }}" target="_blank" rel="noopener noreferrer" style="font-size:15px;font-weight:700;color:var(--accent)" style-hover="color:var(--ink)">{{ l.label }} ↗</a></sc-for><span style="font-size:12px;color:var(--muted)">{{ D.note }}</span></div>
+                </div>
+              </sc-if>
+            
+            <section id="project-process" aria-labelledby="process-heading" style="padding-top:28px;border-top:1px solid var(--line)"><h4 id="process-heading" style="margin:0 0 8px;font-size:17px;font-weight:700;color:var(--accent)">문제 해결</h4>
+              <sc-for list="{{ D.steps }}" as="s"><div style="position:relative;padding:28px 0;border-bottom:1px solid var(--line)"><span aria-hidden="true" style="position:absolute;right:0;top:10px;font-size:72px;font-weight:800;line-height:1;color:var(--chip)">{{ s.n }}</span><sc-if value="{{ s.title }}"><h5 style="position:relative;margin:0 0 12px;padding-right:80px;font-size:17px;font-weight:700;line-height:1.5;word-break:keep-all;color:var(--ink)">{{ s.title }}</h5></sc-if><p style="position:relative;margin:0;padding-right:80px;font-size:16px;line-height:1.8;letter-spacing:-.02em;word-break:keep-all;white-space:pre-line;color:var(--body)">{{ s.a }}<strong style="font-weight:700;color:var(--ink)">{{ s.b }}</strong>{{ s.c }}</p></div></sc-for>
+            </section>
+            <sc-if value="{{ D.hasPs }}"><section id="project-ps" aria-labelledby="ps-heading" style="padding:28px 0 0"><h4 id="ps-heading" style="margin:0 0 12px;font-size:17px;font-weight:700;color:var(--accent)">PS</h4><p style="margin:0;font-size:15px;line-height:1.8;word-break:keep-all;color:var(--body)">{{ D.ps }}</p></section></sc-if>
+          </div>
+          <div data-dmar style="margin:32px 48px 40px;display:grid;grid-template-columns:1fr 1fr;gap:24px;padding-top:24px;border-top:2px solid var(--ink)">
+            <button type="button" onClick="{{ prev }}" style="all:unset;cursor:pointer;display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;font-weight:700;color:var(--muted)">← 이전 프로젝트</span><span style="font-size:15px;font-weight:700;line-height:1.45;color:var(--ink);word-break:keep-all">{{ prevTitle }}</span></button>
+            <button type="button" onClick="{{ next }}" style="all:unset;cursor:pointer;display:flex;flex-direction:column;align-items:flex-end;gap:6px;text-align:right"><span style="font-size:12px;font-weight:700;color:var(--muted)">다음 프로젝트 →</span><span style="font-size:15px;font-weight:700;line-height:1.45;color:var(--ink);word-break:keep-all">{{ nextTitle }}</span></button>
+          </div>
+        </div>
+</div>
+
+
+<script>// 원본의 DOM/스타일을 유지하면서 DC 전용 바인딩만 일반 브라우저에 연결합니다.
+class DCLogic {
+  props = {defaultTheme:'dark',slideUpOnScroll:true};
+  setState(update) {
+    Object.assign(this.state,update);
+    if (this._update) {
+      this._update();
+      this.componentDidUpdate?.();
+    }
+  }
+}
+
+function mountOriginal(component) {
+  const expression = /\{\{\s*([\w.]+)\s*\}\}/g;
+  const pathValue = (scope,path) => path.trim().split('.').reduce((value,key) => value?.[key],scope);
+  const valueOf = (text,scope) => pathValue(scope,text.replace(/^\s*\{\{\s*|\s*\}\}\s*$/g,''));
+  const interpolate = (text,scope) => text.replace(expression,(_,path) => String(pathValue(scope,path) ?? ''));
+  let values;
+  let hoverCount = 0;
+  const hoverSheet = document.createElement('style');
+  document.head.append(hoverSheet);
+
+  function bind(node,scope) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const text = node.textContent;
+      if (!text.includes('{{')) return () => {};
+      return () => {const next=interpolate(text,scope());if(node.textContent!==next)node.textContent=next;};
+    }
+    if (node.nodeType !== Node.ELEMENT_NODE) return () => {};
+    if (node.tagName === 'SC-FOR' || node.tagName === 'SC-IF') {
+      const loop = node.tagName === 'SC-FOR';
+      const input = node.getAttribute(loop?'list':'value');
+      const alias = node.getAttribute('as');
+      const templates = [...node.childNodes].map(child=>child.cloneNode(true));
+      const anchor = document.createComment(loop?'loop':'condition');
+      node.replaceWith(anchor);
+      const rows=[];
+      return () => {
+        const items=loop?(valueOf(input,scope())||[]):(valueOf(input,scope())?[true]:[]);
+        while(rows.length>items.length) {
+          const row=rows.pop();
+          row.nodes.forEach(child=>child.remove());
+        }
+        while(rows.length<items.length) {
+          const index=rows.length;
+          const childScope=()=>loop?{...scope(),[alias]:(valueOf(input,scope())||[])[index]}:scope();
+          const start=document.createComment('row');
+          const end=document.createComment('/row');
+          const clones=templates.map(child=>child.cloneNode(true));
+          anchor.before(start,...clones,end);
+          const updates=clones.map(child=>bind(child,childScope));
+          // 조건과 반복문으로 교체된 노드도 함께 관리합니다.
+          rows.push({start,end,updates,get nodes(){const list=[];let item=this.start;while(item){list.push(item);if(item===this.end)break;item=item.nextSibling;}return list;}});
+        }
+        rows.forEach(row=>row.updates.forEach(update=>update()));
+      };
+    }
+    const updates=[];
+    for(const attr of [...node.attributes]) {
+      const {name,value}=attr;
+      if (name === 'style-hover') {
+        const className='original-hover-'+hoverCount++;
+        node.classList.add(className);
+        hoverSheet.sheet.insertRule(`.${className}:hover{${value}}`,hoverSheet.sheet.cssRules.length);
+        node.removeAttribute(name);
+      } else if (name === 'onclick' || name === 'onscroll') {
+        node.removeAttribute(name);
+        node.addEventListener(name.slice(2),event=>{const handler=valueOf(value,scope());if(typeof handler==='function')handler(event);});
+      } else if (name === 'ref') {
+        node.removeAttribute(name);
+        updates.push(()=>{const handler=valueOf(value,scope());if(typeof handler==='function')handler(node);});
+      } else if (value.includes('{{')) {
+        updates.push(()=>{const next=interpolate(value,scope());if(node.getAttribute(name)!==next)node.setAttribute(name,next);});
+      }
+    }
+    if(node.tagName==='IMG')node.addEventListener('error',()=>{node.style.display='none';});
+    for(const child of [...node.childNodes])updates.push(bind(child,scope));
+    return ()=>updates.forEach(update=>update());
+  }
+
+  // 요청대로 사진/시연 영상은 실제 파일 없이 자리만 유지합니다.
+  component.PROJECTS.forEach(project=>{
+    project.img='';
+    project.media=[];
+    project.mediaText ||= '프로젝트 사진과 시연 영상이 이 자리에 들어갑니다';
+  });
+  const children=[...document.body.childNodes].filter(node=>node.nodeName!=='SCRIPT');
+  const updates=children.map(node=>bind(node,()=>values));
+  component._update=()=>{
+    values=component.renderVals();
+    updates.forEach(update=>update());
+    const drawer=document.getElementById('prj-drawer');
+    const open=component.state.open!=null;
+    drawer.inert=!open;
+    drawer.setAttribute('aria-hidden',String(!open));
+  };
+  component._update();
+  component.componentDidMount();
+
+  // 원본 우측 상세 패널에서 키보드 포커스가 빠져나가지 않도록 보완합니다.
+  const main=document.querySelector('main');
+  const header=document.querySelector('header');
+  let opener;
+  const originalOpen=component.openAt.bind(component);
+  component.openAt=index=>{
+    if(component.state.open==null)opener=document.activeElement;
+    originalOpen(index);
+    main.inert=true;
+    header.inert=true;
+    const close=[...component._dr.querySelectorAll('button[aria-label="닫기"]')].at(-1);
+    close?.focus({preventScroll:true});
+  };
+  const originalClose=component.closeDrawer.bind(component);
+  component.closeDrawer=()=>{
+    originalClose();
+    main.inert=false;
+    header.inert=false;
+    opener?.focus({preventScroll:true});
+  };
+  document.addEventListener('keydown',event=>{
+    if(event.key!=='Tab'||component.state.open==null)return;
+    const buttons=[...component._dr.querySelectorAll('button,a[href],video[controls]')].filter(element=>element.getBoundingClientRect().height>0&&getComputedStyle(element).visibility!=='hidden');
+    const first=buttons[0],last=buttons.at(-1);
+    if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus();}
+    else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}
+  });
+  document.querySelectorAll('a[href="#top"]').forEach(link=>link.addEventListener('click',event=>{event.preventDefault();window.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}));
+}
+
+
+class Component extends DCLogic {
+  state = { theme: null, scrolled: false, activeId: "", open: null, tab: 0, mini: false, prog: 0, med: 0 };
+  ANCHORS = ["prj-fast", "prj-stock", "prj-vision", "prj-share", "prj-game"];
+
+  PROJECTS = (() => {
+    const I = (n) => "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/" + n + ".svg";
+    return [
+      {"title":"무인 지게차 물류 자동화","badge":"SSAFY 공통 프로젝트 우수상","meta":"2026.07.14 — 2026.08.12 · 6인 팀 · 물체 인식·크기 측정 주 담당, 백엔드 공동 개발","summary":"화물의 크기와 무게 분포를 측정해 무인 지게차의 운반·적재를 돕는 시스템입니다. 화물을 올려놓는 받침대인 파렛트를 인식하고, 화물 크기를 계산하는 기능을 주로 맡았습니다. 백엔드 개발에도 참여해 측정 장치 사용 제어, 작업 상태 관리, 적재 위치 추천을 담당했습니다.","mediaText":"파렛트 인식 전후 비교와 화물 측정·운반 시연이 이 자리에 들어갑니다","metrics":[{"k":"파렛트 검출 · 촬영 사진 12장","v":"0장 → 12장"},{"k":"실제 환경의 추가 학습 사진","v":"289장"},{"k":"평가 정답 재작성 · 사진 30장","v":"물체 142개"}],"metricNote":"파렛트 검출은 개선 전후 같은 촬영 사진 12장과 신뢰도 0.5 이상을 기준으로 확인했습니다.","stack":[{"n":"Python","i":"https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"},{"n":"PyTorch","i":"https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg"},{"n":"RTMDet / MMDetection","abbr":"MM"},{"n":"ONNX Runtime","abbr":"ON"},{"n":"OpenCV","i":"https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opencv/opencv-original.svg"},{"n":"Java 21","i":"https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg"},{"n":"Spring Boot","i":"https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg"},{"n":"MySQL","i":"https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"}],"steps":[{"title":"촬영 사진으로 파렛트 인식 개선","a":"기존 모델은 목재 파렛트 사진 위주로 학습돼 있었습니다. 플라스틱 파렛트를 촬영한 사진 12장에서는 모두 검출에 실패했습니다.\n\n실험 환경에서 촬영한 사진 289장에 팀원과 함께 파렛트의 위치를 표시했습니다. 이 사진으로 모델을 추가 학습시키고, 사진에 변형을 주어 학습 데이터도 보완했습니다. 다시 평가했을 때는 같은 사진 12장 모두에서 파렛트를 찾아냈습니다."},{"title":"정답 데이터 재작성과 재평가","a":"검출 성능 점수가 100%로 나와 정답 데이터의 작성 과정을 점검했습니다. 기존 정답은 모델의 예측 결과를 사람이 수정해 만든 것이었습니다. 이렇게 만들면 모델이 놓친 물체가 정답에서도 빠질 수 있었습니다.\n\n사진 30장에 있는 물체 142개의 위치와 종류를 직접 표시해 정답을 다시 만들었습니다. 이때는 모델의 예측을 참고하지 않았습니다. 새로 만든 정답 데이터로 같은 모델을 다시 평가했습니다. 그 결과 검출 성능 점수는 98.42%였습니다. 이후에도 이 정답을 기준으로 모델 성능을 비교했습니다."},{"title":"거리를 반영한 화물 크기 측정","a":"같은 화물도 카메라에서 멀어질수록 사진 속에서는 작게 보였습니다. 사진 속 크기를 실제 크기로 바꾸려면 카메라와 화물 사이의 거리를 알아야 했습니다.\n\n카메라 보정값과 거리 센서의 측정값을 이용해 화물의 실제 크기를 계산했습니다. 박스를 여러 거리와 방향에서 촬영했습니다. 계산한 크기와 자로 잰 실제 크기를 비교해 측정 오차를 확인했습니다."},{"title":"측정 장치와 작업 순서 관리","a":"측정 장치가 한 대뿐이라 요청이 겹치면 서로 다른 작업의 측정값이 섞일 수 있었습니다. 측정 장치는 한 번에 한 작업만 사용할 수 있도록 했습니다. 측정 응답이 일정 시간 안에 오지 않으면 해당 작업을 실패로 처리했습니다. 이때 장치도 다시 사용할 수 있는 상태로 바꿨습니다.\n\n작업이 정해진 순서대로 진행되도록 주요 상태 변경에도 조건을 뒀습니다. 예를 들어 측정 중인 작업만 측정 완료 상태로 바뀌게 했습니다. 작업이 실패하거나 취소되면 적재 위치 예약을 해제했습니다. 측정 완료 처리에 실패했을 때도 예약을 해제해 다른 작업이 해당 위치를 사용할 수 있게 했습니다."}],"ps":"서로 다른 기능을 연결하려면 팀원 간에 처리 순서와 데이터 기준을 맞춰야 했습니다. 처리 순서와 담당 역할, 주고받는 데이터를 문서로 정리했습니다. 구현이 바뀌면 문서도 함께 수정해 최신 내용을 공유했습니다.","links":[{"label":"팀 GitHub","href":"https://github.com/bjs0306b/fast-autonomous-forklift"}]},
+      { title: "가상 주식 시뮬레이션", badge: "MAU 52,470명",
+        meta: "2026.04.25 — 2026.07.01 · 개인 프로젝트 · 설계·구현·배포·운영",
+        summary: "실시간 시세로 모의 매매를 하는 서비스를 혼자 설계·구현·배포·운영했습니다. 조회는 캐시로, 거래는 락으로, 배치는 실행 토큰으로 나눠 처리하고 운영 지표로 확인했습니다.",
+        mediaText: "시연 영상 촬영 예정 — 매매·랭킹 화면과 Grafana 지표 화면이 이 자리에 들어갑니다",
+        metrics: [{ k: "월 API 요청", v: "4,500만 건+" }, { k: "API p95", v: "약 23ms" }, { k: "5xx 오류율", v: "0.0011%" }],
+        stack: [{ n: "Java 17", i: I("java/java-original") }, { n: "Spring Boot", i: I("spring/spring-original") }, { n: "MySQL", i: I("mysql/mysql-original") }, { n: "Redis", i: I("redis/redis-original") }, { n: "Nginx", i: I("nginx/nginx-original") }, { n: "Prometheus", i: I("prometheus/prometheus-original") }, { n: "Grafana", i: I("grafana/grafana-original") }],
+        steps: [
+          ["요청의 대부분이 시세·랭킹 조회였습니다. ", "전부 캐싱하면 잔고와 보유 수량이 실제와 달라질 수 있어", " 갱신이 잦고 정합성 요구가 낮은 조회만 Redis로 옮기고, 거래는 데이터베이스에 남겼습니다."],
+          ["같은 계정에서 주문이 동시에 들어오면 잔고와 보유 수량이 어긋납니다. ", "충돌 자체는 드물어 전체를 잠그는 비관적 락 대신 낙관적 락으로 충돌만 감지해 재시도하게 했고", ", 계정·종목 복합 키로 중복 보유 레코드를 막았습니다."],
+          ["외부 시세 API를 한 번에 호출하던 스케줄러가 다음 주기까지 끝나지 않았습니다. 종목을 청크로 나눠 호출하고, ", "인스턴스가 겹쳐도 같은 배치가 두 번 돌지 않도록", " Redis에 TTL을 둔 실행 토큰을 사용했습니다."],
+          ["운영 기간 동안 연동 계정 21,975개, 지원 종목 3,500종 이상, 누적 거래 135만 건 이상을 처리했습니다."],
+          ["2026년 7월 서비스 운영을 종료했습니다. 저장소와 관측 지표는 남아 있습니다."],
+        ],
+        links: [{ label: "GitHub", href: "https://github.com/JJW0123/stock-simulation" }],
+        note: "과거 배포 주소 virtual-stock.xyz · 2026.07 운영 종료" },
+      { title: "비전 AI 파인튜닝 챌린지", badge: "193팀 중 22위",
+        meta: "2026.04.01 — 2026.04.30 · 5인 팀 · 환경 구축·EDA·학습·프롬프트 튜닝",
+        summary: "팀원마다 실험 조건이 달라 결과를 비교할 수 없었습니다. 시드와 하이퍼파라미터를 고정하고 데이터 로드부터 추론까지 하나의 파이프라인으로 묶은 뒤, 같은 조건에서 30회 실험을 비교했습니다.",
+        mediaText: "실험 비교 화면이 이 자리에 들어갑니다",
+        metrics: [{ k: "정확도", v: "0.91683 → 0.93299" }, { k: "동일 조건 실험", v: "30회 비교" }],
+        stack: [{ n: "Python", i: I("python/python-original") }, { n: "PyTorch", i: I("pytorch/pytorch-original") }, { n: "Hugging Face", i: "https://cdn.simpleicons.org/huggingface/FFD21E" }, { n: "Qwen", abbr: "Q" }],
+        steps: [
+          ["팀원마다 난수 시드와 하이퍼파라미터가 달라, 점수가 올라도 무엇 때문인지 알 수 없었습니다. ", "성능을 올리기 전에 조건을 고정해 비교 기준을 먼저 만들었습니다."],
+          ["데이터 로드부터 추론까지 하나의 파이프라인으로 묶어, ", "실험 간 차이가 바꾼 변수 하나에서만 나오게", " 했습니다."],
+          ["정답이 특정 보기에 치우쳐 검증 점수가 실제 성능을 반영하지 못했습니다. ", "계층화 분할로 학습·검증 세트의 정답 비율을 맞췄습니다."],
+          ["모델이 보기 외에 설명을 덧붙이면 채점에서 오답이 됩니다. ", "프롬프트로 응답을 a/b/c/d 한 글자로 제한", "했습니다."],
+          ["같은 조건 30회 비교로 정확도를 0.91683에서 0.93299까지 올렸고, 193팀 중 22위로 마쳤습니다."],
+        ],
+        links: [] },
+      { title: "쉐어하우스 매칭 플랫폼",
+        meta: "2024.10.26 — 2024.12.03 · 개인 프로젝트 · 기획·DB·백엔드·프론트엔드",
+        summary: "쉐어하우스를 등록하고 조건에 맞는 방을 찾아 예약하는 서비스입니다. 사진은 S3에, 데이터는 데이터베이스에 나눠 저장하고, 서버가 화면을 그리던 초기 구조를 REST API와 JWT 인증으로 다시 만들었습니다.",
+        mediaText: "하우스 목록·상세와 예약 화면이 이 자리에 들어갑니다",
+        metrics: [],
+        stack: [{ n: "Java", i: I("java/java-original") }, { n: "Spring Boot", i: I("spring/spring-original") }, { n: "AWS S3", i: I("amazonwebservices/amazonwebservices-original-wordmark") }, { n: "Swagger", i: I("swagger/swagger-original") }],
+        steps: [
+          ["하우스 사진 용량이 커서 데이터베이스에 함께 저장하면 트랜잭션이 길어졌습니다. ", "이미지는 S3에 올리고 데이터베이스에는 URL만 남겨", " 미디어 처리와 트랜잭션을 분리했습니다."],
+          ["서버가 화면을 그리고 세션으로 로그인을 유지하는 구조에서는 다른 클라이언트를 붙이기 어려웠습니다. ", "REST API와 JWT 기반 무상태 인증으로 리팩터링해 서버가 세션을 들고 있지 않게", " 했습니다."],
+          ["회원·하우스·사진·예약 네 개 엔티티로 도메인을 나누고, ", "인증과 예외 응답 규칙을 Swagger 문서에 함께 정리해", " 화면 작업과 기준을 맞췄습니다."],
+          ["지역 필터 검색과 예약 기능을 구현했습니다."],
+        ],
+        links: [{ label: "GitHub", href: "https://github.com/JJW0123/ShareHouse" }] },
+      { title: "모바일 방치형 게임", badge: "캡스톤 동상",
+        meta: "2023.04.03 — 2023.11.17 · 4인 팀 · 기여도 30% · 핵심 게임 로직·데이터 구조",
+        summary: "건물을 세워 재화를 모으고 타워디펜스로 방어하는 방치형 게임입니다. 재화가 바뀔 때마다 서버에 저장하던 구조를 메모리 상태 관리와 일괄 저장으로 바꿨습니다.",
+        mediaText: "게임 플레이 화면이 이 자리에 들어갑니다",
+        metrics: [],
+        stack: [{ n: "C#", i: I("csharp/csharp-original") }, { n: "Unity", i: I("unity/unity-original") }, { n: "Firebase", i: I("firebase/firebase-plain") }],
+        steps: [
+          ["재화가 바뀔 때마다 Firebase에 쓰는 구조여서 조작 한 번에 네트워크 요청이 따라붙었습니다. ", "방치형 게임은 재화 변동이 잦으니 저장 시점을 줄이는 편이 맞다고 보고", ", 상태는 메모리에서 관리하고 1분 주기·게임 종료·재화 소모 시점에만 일괄 저장하게 바꿨습니다."],
+          ["생산·레벨·업그레이드 로직이 건물마다 흩어져 같은 수치가 서로 달라졌습니다. ", "중앙 관리 구조로 통합해 한 곳에서만 수치를 바꾸게", " 했습니다."],
+          ["2D Collider 이동·충돌과 타워디펜스 사거리·배치 비용·랜덤 덱 로직을 구현했습니다."],
+          ["팀원과 ", "기능 인터페이스와 데이터 책임 범위를 먼저 합의해", " 같은 기능을 두 번 만드는 일을 줄였습니다."],
+        ],
+        links: [] },
+    ];
+  })();
+
+  decorate(p, i) {
+    const pad = (n) => (n < 10 ? "0" : "") + n;
+    return Object.assign({}, p, {
+      num: pad(i + 1),
+      metaShort: p.meta.split(" · ").slice(0, 2).join(" · "),
+      period: p.meta.split(" · ")[0],
+      team: p.meta.split(" · ")[1],
+      role: p.meta.split(" · ").slice(2).join(" · "),
+      stackText: p.stack.map((t) => t.n).join(" · "),
+      badge: p.badge || "",
+      img: p.img || "",
+      noImg: !p.img,
+      mediaText: p.mediaText || "",
+      note: p.note || "",
+      hasMetrics: p.metrics.length > 0,
+      topMetrics: p.metrics.slice(0, 2),
+      firstMetric: p.metrics[0] || null,
+      hasLinks: p.links.length > 0,
+      stack: p.stack.map((t) => ({ n: t.n, i: t.i || "", abbr: t.abbr || "" })),
+      steps: p.steps.map((s, j) => ({ n: pad(j + 1), title: s.title || "", a: Array.isArray(s) ? s[0] : s.a, b: s.b || s[1] || "", c: s.c || s[2] || "" })),
+      ps: p.ps || "", hasPs: Boolean(p.ps), metricNote: p.metricNote || "",
+    });
+  }
+
+
+  componentDidMount() {
+    const stored = (() => { try { return localStorage.getItem("jjw-theme-v2"); } catch (e) { return null; } })();
+    const theme = stored || this.props.defaultTheme || "light";
+    this.applyTheme(theme);
+    this.setState({ theme });
+    const hero = document.getElementById("main");
+    if (hero && typeof IntersectionObserver !== "undefined") {
+      this._heroIo = new IntersectionObserver(([entry]) => this.setState({ scrolled: !entry.isIntersecting }), { threshold: 0 });
+      this._heroIo.observe(hero);
+    }
+    if (typeof IntersectionObserver !== "undefined") {
+      this._secIo = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => { if (entry.isIntersecting) this.setState({ activeId: entry.target.id }); });
+      }, { rootMargin: "-45% 0px -45% 0px" });
+      ["experience", "project", "skills", "education"].forEach((id) => { const el = document.getElementById(id); if (el) this._secIo.observe(el); });
+    }
+    this.setupReveal();
+    this._esc = (e) => { if (e.key === "Escape" && this.state.open != null) this.closeDrawer(); };
+    document.addEventListener("keydown", this._esc);
+  }
+
+  componentDidUpdate() { this.setupReveal(); }
+
+  componentWillUnmount() {
+    if (this._heroIo) this._heroIo.disconnect();
+    if (this._secIo) this._secIo.disconnect();
+    if (this._suIo) this._suIo.disconnect();
+    document.removeEventListener("keydown", this._esc);
+    document.body.style.overflow = "";
+  }
+
+  applyTheme(theme) {
+    const root = document.documentElement;
+    if (theme === "dark") root.classList.add("dark"); else root.classList.remove("dark");
+  }
+
+  setupReveal() {
+    if (this.props.slideUpOnScroll === false) return;
+    if (typeof IntersectionObserver === "undefined") return;
+    if (!this._suIo) {
+      this._suIo = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("su-in");
+          this._suIo.unobserve(entry.target);
+        });
+      }, { rootMargin: "0px 0px -100px 0px" });
+    }
+    requestAnimationFrame(() => {
+      document.querySelectorAll("[data-su]:not([data-su-bound])").forEach((el, i) => {
+        el.setAttribute("data-su-bound", "");
+        el.classList.add("su");
+        if (el.parentElement && el.parentElement.tagName === "UL") el.style.animationDelay = 0.1 + i * 0.15 + "s";
+        this._suIo.observe(el);
+      });
+    });
+  }
+
+  pauseMedia() { if (this._dr) this._dr.querySelectorAll("video").forEach((v) => v.pause()); }
+
+  openAt(i) {
+    this.pauseMedia();
+    this.setState({ open: i, tab: 0, mini: false, prog: 0, med: 0 });
+    document.body.style.overflow = "hidden";
+    if (this._dr) this._dr.scrollTop = 0;
+  }
+
+  closeDrawer() { this.pauseMedia(); this.setState({ open: null }); document.body.style.overflow = ""; }
+
+  renderVals() {
+    const theme = this.state.theme || this.props.defaultTheme || "light";
+    const active = this.state.activeId;
+    const on = (id) => (active === id ? "var(--accent)" : "var(--body)");
+    const s = this.state;
+    const P = this.PROJECTS.map((p, i) => this.decorate(p, i));
+    const len = P.length;
+    const wrap = (n) => ((n % len) + len) % len;
+    const idx = s.open, i0 = idx ?? 0, D = P[i0];
+    const media = D.media || [];
+    const mi = Math.min(s.med, Math.max(0, media.length - 1));
+    const m = media[mi];
+    const link = (i) => (e) => { if (e) e.preventDefault(); this.openAt(i); };
+    return {
+      exp: { work: true },
+      nav: { exp: on("experience"), prj: on("project"), skl: on("skills"), edu: on("education") },
+      themeLabel: theme === "dark" ? "라이트 모드로 전환" : "다크 모드로 전환",
+      sunDisplay: theme === "dark" ? "none" : "block",
+      moonDisplay: theme === "dark" ? "block" : "none",
+      headerBg: s.scrolled ? "var(--bg)" : "transparent",
+      headerBorder: s.scrolled ? "var(--line)" : "transparent",
+      toggleTheme: () => {
+        const next = theme === "dark" ? "light" : "dark";
+        this.applyTheme(next);
+        try { localStorage.setItem("jjw-theme-v2", next); } catch (err) {}
+        this.setState({ theme: next });
+      },
+      scrollTop: (ev) => { if (ev) ev.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); },
+      openFast: link(0), openStock: link(1), openVision: link(2),
+
+      prjRows: P.map((p, i) => Object.assign({}, p, {
+        anchor: this.ANCHORS[i],
+        open: () => this.openAt(i),
+        numOpacity: idx === i ? 1 : 0.32,
+        iconTf: idx === i ? "translateX(3px)" : "none",
+      })),
+      D,
+      xd: { ov: idx != null ? 1 : 0, pe: idx != null ? "auto" : "none", tf: idx != null ? "translateX(0)" : "translateX(calc(100% + 96px))", vis: idx != null ? "visible" : "hidden", visDelay: idx != null ? "0s" : ".4s", close: () => this.closeDrawer() },
+      drRef: (el) => { this._dr = el; },
+      drScroll: (e) => {
+        const el = e.currentTarget, top = el.scrollTop;
+        const upd = { prog: Math.min(1, top / Math.max(1, el.scrollHeight - el.clientHeight)) };
+        const mini = top > 170;
+        if (mini !== s.mini) upd.mini = mini;
+        this.setState(upd);
+      },
+      bar: s.mini ? { op: 1, tf: "translateY(0)", pe: "auto" } : { op: 0, tf: "translateY(-100%)", pe: "none" },
+      pos: D.num + " / " + String(len).padStart(2, "0"),
+      prog: Math.round(s.prog * 100) + "%",
+      tabs: ["개요", "문제 해결"].map((label, i) => ({
+        label, count: i === 1 ? String(D.steps.length) : "",
+        color: s.tab === i ? "#0d2436" : "#a7c2d8", bg: s.tab === i ? "#fff" : "transparent",
+        pick: () => { this.pauseMedia(); this.setState({ tab: i }); if (this._dr && this._dr.scrollTop > 0) this._dr.scrollTop = 0; },
+      })),
+      tab0: s.tab === 0, tab1: s.tab === 1,
+      med: m ? { isImg: m.type === "img", isVid: m.type === "video", none: false, src: m.src, poster: m.poster || m.src, cap: m.cap } : { none: true, cap: "" },
+      hasThumbs: media.length > 1,
+      thumbs: media.map((x, j) => ({ poster: x.poster || x.src, isVid: x.type === "video", label: x.cap, ring: j === mi ? "var(--accent)" : "transparent", op: j === mi ? 1 : 0.6, pick: () => { this.pauseMedia(); this.setState({ med: j }); } })),
+      prev: () => this.openAt(wrap(i0 - 1)), next: () => this.openAt(wrap(i0 + 1)),
+      prevTitle: P[wrap(i0 - 1)].title, nextTitle: P[wrap(i0 + 1)].title,
+    };
+  }
+}
+
+const portfolio = new Component();
+portfolio.PROJECTS = portfolio.PROJECTS.slice(0, 3).concat({"title":"코밋(Komit) — 외주·컨설팅 에스크로 플랫폼","meta":"2026.08.24 — 2026.09.28 · 5인 팀 · 담당 내용 정리 예정","summary":"바이브 코딩으로 만든 서비스를 개발자와 함께 완성하는 외주·컨설팅 에스크로 플랫폼입니다. 상세 소개와 담당 기능은 초안 검토 후 채울 예정입니다.","mediaText":"코밋 서비스 화면과 시연 영상이 이 자리에 들어갑니다","metrics":[],"stack":[{"n":"Java 21"},{"n":"Spring Boot"},{"n":"PostgreSQL"},{"n":"Redis"},{"n":"FastAPI"},{"n":"WebRTC"}],"steps":[["문제와 목표: 서비스가 해결하려는 문제와 주요 사용자 흐름을 정리할 예정입니다."],["설계와 구현: 담당 기능과 기술 선택의 이유를 초안 검토 후 채울 예정입니다."],["검증과 개선: 문제 해결 과정과 확인된 결과를 정리할 예정입니다."]],"links":[]});
+portfolio.ANCHORS = ['prj-fast', 'prj-stock', 'prj-vision', 'prj-komit'];
+mountOriginal(portfolio);</script>
+</body></html>
