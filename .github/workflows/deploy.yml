@@ -9,34 +9,50 @@ on:
 
 concurrency:
   group: deploy-${{ github.ref }}
-  cancel-in-progress: true
+  # rsync --delete가 중간에 끊기면 사이트가 반쯤 바뀐 채로 남으므로 배포는 취소하지 않습니다.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  # 서버 Caddyfile의 root와 같아야 합니다. rsync --delete로 동기화하므로 전용 폴더여야 합니다.
+  DEPLOY_PATH: /var/www/portfolio
 
 jobs:
   ci:
-    name: Lint & Package
+    name: Lint & Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
+          cache: npm
 
-      - name: Lint HTML
-        run: npx --yes htmlhint@1 "**/*.html"
-
-      - name: Package site
+      - name: Check SITE_URL
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
         run: |
-          mkdir -p dist
-          rsync -a \
-            --exclude '.git' --exclude '.github' --exclude 'dist' \
-            --exclude 'README.md' --exclude '.htmlhintrc' \
-            ./ dist/
+          if [[ ! "$SITE_URL" =~ ^https?:// ]]; then
+            echo "::error::저장소 변수 SITE_URL에 http:// 또는 https://로 시작하는 주소를 넣어주세요."
+            exit 1
+          fi
+
+      - run: npm ci
+
+      - run: npm run lint
+
+      - run: npm test
+
+      # next build가 타입 검사까지 함께 수행합니다.
+      - name: Build
+        run: npm run build
+        env:
+          NEXT_PUBLIC_SITE_URL: ${{ vars.SITE_URL }}
 
       - uses: actions/upload-artifact@v4
         with:
           name: site
-          path: dist
+          path: out
           retention-days: 7
 
   deploy:
@@ -51,26 +67,33 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: site
-          path: dist
+          path: out
 
+      # 배포 때마다 ssh-keyscan으로 받은 키를 믿지 않고, 미리 확인해 둔 서버 호스트 키만 허용합니다.
       - name: Set up SSH
+        env:
+          SSH_KEY: ${{ secrets.OCI_SSH_KEY }}
+          KNOWN_HOSTS: ${{ vars.OCI_KNOWN_HOSTS }}
         run: |
+          if [ -z "$KNOWN_HOSTS" ]; then
+            echo "::error::저장소 변수 OCI_KNOWN_HOSTS에 서버 호스트 키(ssh-keyscan -H 결과)를 넣어주세요."
+            exit 1
+          fi
           mkdir -p ~/.ssh
-          echo "${{ secrets.OCI_SSH_KEY }}" > ~/.ssh/id_deploy
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/id_deploy
           chmod 600 ~/.ssh/id_deploy
-          ssh-keyscan -p "$SSH_PORT" -H "${{ secrets.OCI_HOST }}" >> ~/.ssh/known_hosts
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
 
       - name: Upload files
         run: |
           rsync -avz --delete \
-            -e "ssh -i ~/.ssh/id_deploy -p $SSH_PORT" \
-            dist/ "${{ secrets.OCI_USER }}@${{ secrets.OCI_HOST }}:${{ secrets.OCI_DEPLOY_PATH }}/"
+            -e "ssh -i ~/.ssh/id_deploy -p $SSH_PORT -o StrictHostKeyChecking=yes" \
+            out/ "${{ secrets.OCI_USER }}@${{ secrets.OCI_HOST }}:$DEPLOY_PATH/"
 
       - name: Health check
-        if: ${{ vars.SITE_URL != '' }}
         run: |
           for i in 1 2 3 4 5; do
-            code=$(curl -s -o /dev/null -w '%{http_code}' "${{ vars.SITE_URL }}")
+            code=$(curl -sL --max-time 10 -o /dev/null -w '%{http_code}' "${{ vars.SITE_URL }}")
             echo "HTTP $code"
             [ "$code" = "200" ] && exit 0
             sleep 3

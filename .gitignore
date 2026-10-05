@@ -1,0 +1,26 @@
+# dependencies
+node_modules/
+
+# next.js
+.next/
+out/
+next-env.d.ts
+
+# testing
+coverage/
+test-results/
+playwright-report/
+
+# env & keys
+.env*
+!.env.example
+*.pem
+*.key
+
+# misc
+.DS_Store
+*.tsbuildinfo
+npm-debug.log*
+
+# local tooling
+.claude/
