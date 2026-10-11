@@ -61,13 +61,9 @@ export function ProjectDetail({ project, titleLevel }: { project: Project; title
   const level = titleLevel + 1;
   return (
     <div className="flex flex-col px-12 pt-2 max-[600px]:px-5">
-      <div className="flex flex-col gap-6 pt-7 pb-6">
-        {/* 사진·시연 영상이 준비될 때까지 자리만 표시합니다. */}
-        <div className="box-content flex aspect-video items-center justify-center rounded-lg bg-surface p-4">
-          <span className="text-center text-xs text-muted">{project.mediaText}</span>
-        </div>
-
-        {project.metrics.length > 0 && (
+      {/* 사진·시연 영상은 준비되면 이 자리(지표 위)에 넣습니다. 계획은 데이터의 mediaPlan에 있습니다. */}
+      {project.metrics.length > 0 && (
+        <div className="flex flex-col gap-6 pt-7 pb-6">
           <dl className="m-0 grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-5">
             {project.metrics.map((metric) => (
               <div key={metric.label} className="flex flex-col-reverse gap-1">
@@ -76,9 +72,9 @@ export function ProjectDetail({ project, titleLevel }: { project: Project; title
               </div>
             ))}
           </dl>
-        )}
-        {project.metricNote && <p className="m-0 text-xs leading-[1.6] text-muted">{project.metricNote}</p>}
-      </div>
+          {project.metricNote && <p className="m-0 text-xs leading-[1.6] text-muted">{project.metricNote}</p>}
+        </div>
+      )}
 
       <DetailRow label="프로젝트 소개" labelOffset="pt-[3px]">
         <p className="m-0 text-[17px] leading-[1.75] font-medium tracking-[-.025em] text-ink">{project.summary}</p>
@@ -111,31 +107,36 @@ export function ProjectDetail({ project, titleLevel }: { project: Project; title
         </DetailRow>
       )}
 
-      <section aria-labelledby="process-heading" className="border-t border-line pt-7">
-        <Heading level={level} id="process-heading" className="m-0 mb-2 text-[17px] font-bold text-accent">
-          문제 해결
-        </Heading>
-        {project.steps.map((step, index) => (
-          <div key={index} className="relative border-b border-line py-7">
-            <span
-              aria-hidden="true"
-              className="absolute top-2.5 right-0 text-[72px] leading-none font-extrabold text-chip"
-            >
-              {padNumber(index + 1)}
-            </span>
-            {step.title && (
-              <Heading level={level + 1} className="relative m-0 mb-3 pr-20 text-[17px] leading-[1.5] font-bold text-ink">
-                {step.title}
-              </Heading>
-            )}
-            <p className="relative m-0 pr-20 text-base leading-[1.8] tracking-[-.02em] whitespace-pre-line text-body">
-              {step.lead}
-              {step.strong && <strong className="font-bold text-ink">{step.strong}</strong>}
-              {step.tail}
-            </p>
-          </div>
-        ))}
-      </section>
+      {project.steps.length > 0 && (
+        <section aria-labelledby="process-heading" className="border-t border-line pt-7">
+          <Heading level={level} id="process-heading" className="m-0 mb-2 text-[17px] font-bold text-accent">
+            문제 해결
+          </Heading>
+          {project.steps.map((step, index) => (
+            <div key={index} className="relative border-b border-line py-7">
+              <span
+                aria-hidden="true"
+                className="absolute top-2.5 right-0 text-[72px] leading-none font-extrabold text-chip"
+              >
+                {padNumber(index + 1)}
+              </span>
+              {step.title && (
+                <Heading
+                  level={level + 1}
+                  className="relative m-0 mb-3 pr-20 text-[17px] max-[600px]:pr-0 leading-[1.5] font-bold text-ink"
+                >
+                  {step.title}
+                </Heading>
+              )}
+              <p className="relative m-0 pr-20 text-base max-[600px]:pr-0 leading-[1.8] tracking-[-.02em] whitespace-pre-line text-body">
+                {step.lead}
+                {step.strong && <strong className="font-bold text-ink">{step.strong}</strong>}
+                {step.tail}
+              </p>
+            </div>
+          ))}
+        </section>
+      )}
 
       {project.ps && (
         <section aria-labelledby="ps-heading" className="pt-7">

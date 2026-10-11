@@ -29,8 +29,11 @@ export interface Project {
   period: string;
   team: string;
   role?: string;
+  /** 목록 행에 보이는 한 줄 소개입니다. 처음 보는 사람도 읽을 수 있게 전문 용어 없이 씁니다. */
+  highlight?: string;
   summary: string;
-  mediaText: string;
+  /** 넣을 사진·영상 계획을 적어 두는 메모입니다. 화면에는 나오지 않습니다. */
+  mediaPlan?: string;
   metrics: Metric[];
   metricNote?: string;
   stack: Tech[];
@@ -42,30 +45,25 @@ export interface Project {
   hidden?: boolean;
 }
 
-export interface Strength {
-  title: string;
-  body: string;
-  projectSlug: string;
-  linkLabel: string;
-}
-
-export interface Experience {
+export interface HistoryItem {
   period: string;
   title: string;
-  summary: string;
-  stack: Tech[];
-  duties: string[];
+  subtitle?: string;
+  /** 있으면 "자세히 보기"로 접어 둡니다. */
+  details?: string[];
+}
+
+export interface HistoryGroup {
+  label: string;
+  items: HistoryItem[];
+}
+
+export interface Skill extends Tech {
+  /** 주로 쓰는 기술은 타일을 강조합니다. */
+  isCore?: boolean;
 }
 
 export interface SkillGroup {
   label: string;
-  items: Tech[];
-}
-
-export interface EducationItem {
-  period: string;
-  title: string;
-  subtitle: string;
-  details?: string[];
-  kind: "education" | "certificate";
+  items: Skill[];
 }

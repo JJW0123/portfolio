@@ -1,5 +1,4 @@
 import { describe, expect, test } from "vitest";
-import { STRENGTHS } from "@/data/profile";
 import { PROJECTS } from "@/data/projects";
 import type { Project } from "@/data/types";
 import { findProject, fullMeta, getNeighbors, getVisibleProjects, padNumber, shortMeta } from "./project";
@@ -10,7 +9,6 @@ const makeProject = (overrides: Partial<Project>): Project => ({
   period: "2026.01 — 2026.02",
   team: "1인",
   summary: "",
-  mediaText: "",
   metrics: [],
   stack: [],
   steps: [],
@@ -54,6 +52,10 @@ describe("meta 문자열", () => {
     expect(shortMeta(makeProject({ role: "백엔드" }))).toBe("2026.01 — 2026.02 · 1인");
   });
 
+  test("shortMeta는 기간의 일 단위를 떼고 연.월만 보여준다", () => {
+    expect(shortMeta(makeProject({ period: "2026.04.25 — 2026.07.01" }))).toBe("2026.04 — 2026.07 · 1인");
+  });
+
   test("fullMeta는 역할이 없으면 생략한다", () => {
     expect(fullMeta(makeProject({ role: "백엔드" }))).toBe("2026.01 — 2026.02 · 1인 · 백엔드");
     expect(fullMeta(makeProject({}))).toBe("2026.01 — 2026.02 · 1인");
@@ -78,9 +80,28 @@ describe("getNeighbors", () => {
 });
 
 describe("데이터 연결", () => {
-  test("핵심 역량 카드의 링크는 모두 보이는 프로젝트를 가리킨다", () => {
-    STRENGTHS.forEach((strength) => {
-      expect(findProject(strength.projectSlug), strength.projectSlug).toBeDefined();
+  test("보이는 프로젝트는 모두 목록용 한 줄 소개가 있고, 길이가 65자 이내다", () => {
+    getVisibleProjects().forEach((project) => {
+      expect(project.highlight, project.slug).toBeTruthy();
+      expect(project.highlight?.length ?? 0, project.slug).toBeLessThanOrEqual(65);
+    });
+  });
+
+  test("보이는 프로젝트의 화면 문구에는 작성 중 메모가 없다", () => {
+    getVisibleProjects().forEach((project) => {
+      const shownText = [
+        project.title,
+        project.badge,
+        project.role,
+        project.highlight,
+        project.summary,
+        project.metricNote,
+        project.ps,
+        project.note,
+        ...project.metrics.flatMap((metric) => [metric.label, metric.value]),
+        ...project.steps.flatMap((step) => [step.title, step.lead, step.strong, step.tail]),
+      ].join(" ");
+      expect(shownText, project.slug).not.toMatch(/예정|이 자리에 들어갑니다/);
     });
   });
 });

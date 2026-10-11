@@ -9,10 +9,9 @@ import { cn } from "@/lib/cn";
 import { HERO_ID } from "@/lib/site";
 
 const SECTIONS = [
-  { id: "experience", label: "경력" },
+  { id: "history", label: "이력" },
   { id: "project", label: "프로젝트" },
   { id: "skills", label: "기술" },
-  { id: "education", label: "교육" },
 ] as const;
 
 const SECTION_IDS = SECTIONS.map((section) => section.id);
@@ -72,7 +71,6 @@ export function Header({ isHome = true }: { isHome?: boolean }) {
       >
         <p className="m-0 text-base leading-none whitespace-nowrap">
           <span className="font-extrabold text-ink">{PROFILE.name}</span>
-          <span className="hidden font-normal text-muted md:inline"> | {PROFILE.role}</span>
         </p>
       </a>
 

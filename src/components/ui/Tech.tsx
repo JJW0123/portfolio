@@ -37,7 +37,9 @@ export function TechIcon({ tech, size }: { tech: Tech; size: number }) {
     return (
       <span
         aria-hidden="true"
-        className="inline-flex size-4 items-center justify-center rounded bg-accent-soft text-[9px] font-extrabold text-bg"
+        className="inline-flex items-center justify-center rounded bg-accent-soft font-extrabold text-bg"
+        // 로고와 같은 크기로 그려 타일마다 아이콘 크기가 달라 보이지 않게 합니다.
+        style={{ width: size, height: size, fontSize: Math.round(size * 0.56) }}
       >
         {tech.abbr}
       </span>

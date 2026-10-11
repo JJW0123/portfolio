@@ -1,10 +1,11 @@
 import { Section } from "@/components/ui/Section";
 import { TechIcon } from "@/components/ui/Tech";
 import { SKILL_GROUPS } from "@/data/profile";
+import { cn } from "@/lib/cn";
 
 export function Skills() {
   return (
-    <Section id="skills" eyebrow="기술 스택" title="프로젝트에서 직접 사용한 기술입니다.">
+    <Section id="skills" eyebrow="기술 스택" title="프로젝트에서 사용한 기술입니다.">
       <div className="flex flex-col gap-8">
         {SKILL_GROUPS.map((group) => (
           <div key={group.label}>
@@ -13,15 +14,21 @@ export function Skills() {
               {group.items.map((tech) => (
                 <li
                   key={tech.name}
-                  className="flex flex-col items-center gap-2 rounded-lg border border-line bg-surface px-2 py-4"
+                  className={cn(
+                    "flex flex-col items-center gap-2 rounded-lg border bg-surface px-2 py-4",
+                    tech.isCore ? "border-accent" : "border-line",
+                  )}
                 >
                   <TechIcon tech={tech} size={30} />
-                  <span className="text-center text-xs font-semibold text-body">{tech.name}</span>
+                  <span className={cn("text-center text-xs font-semibold", tech.isCore ? "text-ink" : "text-body")}>
+                    {tech.name}
+                  </span>
                 </li>
               ))}
             </ul>
           </div>
         ))}
+        <p className="m-0 text-xs text-muted">주로 쓰는 기술은 파란 테두리로 표시했습니다.</p>
       </div>
     </Section>
   );

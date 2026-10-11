@@ -8,7 +8,10 @@ export const getVisibleProjects = (): Project[] => PROJECTS.filter((project) => 
 export const findProject = (slug: string): Project | undefined =>
   getVisibleProjects().find((project) => project.slug === slug);
 
-export const shortMeta = (project: Project): string => `${project.period} · ${project.team}`;
+/** 목록에서는 이력과 같은 연.월 형식으로 줄이고, 일 단위 날짜는 상세에서만 보여줍니다. */
+const toYearMonth = (period: string): string => period.replace(/(\d{4}\.\d{2})\.\d{2}/g, "$1");
+
+export const shortMeta = (project: Project): string => `${toYearMonth(project.period)} · ${project.team}`;
 
 export const fullMeta = (project: Project): string =>
   [project.period, project.team, project.role].filter(Boolean).join(" · ");

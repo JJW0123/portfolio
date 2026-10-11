@@ -38,7 +38,7 @@ export function Hero() {
 
       <div className={`${RISE} mt-11 flex justify-center [animation-delay:1.6s]`}>
         <a
-          href="#experience"
+          href="#history"
           aria-label="아래로 스크롤"
           className="flex size-12 items-center justify-center rounded-full text-accent hover:text-ink"
         >
