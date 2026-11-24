@@ -1,5 +1,4 @@
-import { ICON } from "./icons";
-import type { HistoryGroup, SkillGroup } from "./types";
+import type { HistoryGroup, MainSkill, OtherSkillGroup } from "./types";
 
 export const PROFILE = {
   name: "전지웅",
@@ -7,6 +6,8 @@ export const PROFILE = {
   email: "wjswldnd2000@naver.com",
   github: "https://github.com/JJW0123",
   githubHandle: "@JJW0123",
+  /** 히어로 큰 제목. 줄마다 끊어 보입니다. */
+  headline: ["근거 있는 코드를 쓰는", "백엔드 개발자 전지웅"],
   heroLines: [
     "운영 지표로 문제의 원인을 찾고 설계와 구현으로 해결해 왔습니다.",
     "백엔드가 주 분야이며 AI 개발도 경험했습니다.",
@@ -45,41 +46,25 @@ export const HISTORY: HistoryGroup[] = [
   {
     label: "자격",
     items: [
-      { period: "2024.12", title: "정보처리기사" },
-      { period: "2026.04", title: "TOEIC Speaking IM3" },
+      { period: "2024.12", title: "정보처리기사", subtitle: "한국산업인력공단" },
+      { period: "2026.04", title: "TOEIC Speaking IM3", subtitle: "한국TOEIC위원회" },
     ],
   },
 ];
 
-export const SKILL_GROUPS: SkillGroup[] = [
-  {
-    label: "Backend",
-    items: [
-      { name: "Java 17/21", icon: ICON.java, isCore: true },
-      { name: "Spring Boot", icon: ICON.spring, isCore: true },
-      { name: "MySQL", icon: ICON.mysql, isCore: true },
-      { name: "Redis", icon: ICON.redis, isCore: true },
-    ],
-  },
-  {
-    label: "Infra",
-    items: [
-      { name: "Prometheus", icon: ICON.prometheus, isCore: true },
-      { name: "Grafana", icon: ICON.grafana, isCore: true },
-      { name: "Docker Compose", icon: ICON.docker },
-      { name: "Nginx", icon: ICON.nginx },
-      { name: "AWS EC2 · S3", icon: ICON.aws },
-      { name: "Oracle Cloud", icon: ICON.oracle },
-      { name: "MQTT", icon: ICON.mqtt },
-    ],
-  },
-  {
-    label: "AI",
-    items: [
-      { name: "Python", icon: ICON.python },
-      { name: "PyTorch", icon: ICON.pytorch },
-      { name: "OpenCV", icon: ICON.opencv },
-      { name: "ONNX Runtime", abbr: "ON" },
-    ],
-  },
+// TODO(확인 필요): level은 디자인 시안의 임시값입니다. 본인 기준으로 고쳐 주세요.
+export const MAIN_SKILLS: MainSkill[] = [
+  { name: "Java", level: 4, note: "인턴 관리자 시스템, 가상 주식 시뮬레이션, 무인 지게차 백엔드를 Java로 구현했습니다." },
+  { name: "Spring Boot", level: 4, note: "REST API, 예외 응답 규칙, 스케줄러와 낙관적 락 기반 주문 처리를 구현했습니다." },
+  { name: "MySQL", level: 4, note: "39개 테이블 정규화 ERD를 설계하고, 복합 키와 조건부 UPDATE로 정합성을 지켰습니다." },
+  { name: "Redis", level: 3, note: "시세·랭킹 조회 캐시와 TTL 실행 토큰으로 배치 중복 실행을 막았습니다." },
+  { name: "Python", level: 3, note: "파렛트 검출 모델 추가 학습과 30회 비교 실험 파이프라인을 작성했습니다." },
+];
+
+export const OTHER_SKILLS: OtherSkillGroup[] = [
+  { label: "인프라", items: ["Docker Compose", "Nginx", "Oracle Cloud VM", "AWS EC2 · S3"] },
+  { label: "모니터링", items: ["Prometheus", "Grafana Cloud"] },
+  { label: "API · 인증", items: ["Swagger", "JWT"] },
+  { label: "AI · 비전", items: ["PyTorch", "Hugging Face", "OpenCV", "ONNX Runtime"] },
+  { label: "기타", items: ["MQTT", "Firebase", "C#", "Unity"] },
 ];

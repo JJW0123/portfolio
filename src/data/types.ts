@@ -1,13 +1,13 @@
-export interface Tech {
-  name: string;
-  icon?: string;
-  abbr?: string;
-  emoji?: string;
-}
-
 export interface Metric {
   label: string;
   value: string;
+}
+
+/** 사진·영상 한 장. src는 public 아래 경로나 외부 주소입니다. */
+export interface MediaItem {
+  src: string;
+  alt: string;
+  caption?: string;
 }
 
 export interface ProblemStep {
@@ -15,6 +15,10 @@ export interface ProblemStep {
   lead: string;
   strong?: string;
   tail?: string;
+  /** 사례 아래에 한 줄로 보이는 결과입니다. 없으면 숨깁니다. */
+  result?: string;
+  /** 사례마다 0~1장. 있으면 오른쪽에 작게 보입니다. */
+  image?: MediaItem;
 }
 
 export interface ProjectLink {
@@ -32,12 +36,13 @@ export interface Project {
   /** 목록 행에 보이는 한 줄 소개입니다. 처음 보는 사람도 읽을 수 있게 전문 용어 없이 씁니다. */
   highlight?: string;
   summary: string;
-  /** 넣을 사진·영상 계획을 적어 두는 메모입니다. 화면에는 나오지 않습니다. */
-  mediaPlan?: string;
+  /** 상세 페이지 상단 슬라이드. 첫 장은 목록에 마우스를 올렸을 때 미리보기로도 쓰입니다. */
+  media?: MediaItem[];
   metrics: Metric[];
   metricNote?: string;
-  stack: Tech[];
+  stack: string[];
   steps: ProblemStep[];
+  /** 상세 페이지의 회고 칸 */
   ps?: string;
   links: ProjectLink[];
   note?: string;
@@ -48,8 +53,8 @@ export interface Project {
 export interface HistoryItem {
   period: string;
   title: string;
+  /** 경력에서는 제목 아래 설명, 교육·자격에서는 오른쪽 끝의 짧은 메모로 보입니다. */
   subtitle?: string;
-  /** 있으면 "자세히 보기"로 접어 둡니다. */
   details?: string[];
 }
 
@@ -58,12 +63,17 @@ export interface HistoryGroup {
   items: HistoryItem[];
 }
 
-export interface Skill extends Tech {
-  /** 주로 쓰는 기술은 타일을 강조합니다. */
-  isCore?: boolean;
+/** 1~5. 화면에는 다섯 칸 막대와 하·중하·중·중상·상으로 보입니다. */
+export type SkillLevel = 1 | 2 | 3 | 4 | 5;
+
+export interface MainSkill {
+  name: string;
+  level: SkillLevel;
+  /** 이 기술로 무엇을 했는지 한 문장 */
+  note: string;
 }
 
-export interface SkillGroup {
+export interface OtherSkillGroup {
   label: string;
-  items: Skill[];
+  items: string[];
 }

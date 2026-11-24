@@ -1,4 +1,3 @@
-import { ICON } from "./icons";
 import type { Project } from "./types";
 
 export const PROJECTS: Project[] = [
@@ -12,33 +11,33 @@ export const PROJECTS: Project[] = [
     highlight: "실시간 시세로 모의 매매를 하는 서비스입니다. 설계부터 운영까지 혼자 맡았습니다.",
     summary:
       "실시간 시세로 모의 매매를 하는 서비스를 혼자 설계·구현·배포·운영했습니다. 조회는 캐시로, 거래는 락으로, 배치는 실행 토큰으로 나눠 처리하고 운영 지표로 확인했습니다. 서비스하는 동안 연동 계정 21,975개, 지원 종목 3,500종 이상, 누적 거래 135만 건 이상을 처리했습니다.",
-    mediaPlan: "시연 영상 촬영 예정 — 매매·랭킹 화면과 Grafana 지표 화면이 이 자리에 들어갑니다",
+    // TODO: 매매·랭킹 화면, Grafana 지표 화면, 시연 영상 추가
+    media: [
+      { src: "/mock/stock-1.svg", alt: "매매 화면", caption: "매매 화면" },
+      { src: "/mock/stock-2.svg", alt: "랭킹 화면", caption: "랭킹 화면" },
+      { src: "/mock/stock-3.svg", alt: "Grafana 지표", caption: "Grafana 지표" },
+      { src: "/mock/stock-4.svg", alt: "운영 알림", caption: "운영 알림" },
+    ],
     metrics: [
       { label: "월 API 요청", value: "4,500만 건+" },
       { label: "API p95", value: "약 23ms" },
       { label: "5xx 오류율", value: "0.0011%" },
     ],
-    stack: [
-      { name: "Java 17", icon: ICON.java },
-      { name: "Spring Boot", icon: ICON.spring },
-      { name: "MySQL", icon: ICON.mysql },
-      { name: "Redis", icon: ICON.redis },
-      { name: "Nginx", icon: ICON.nginx },
-      { name: "Prometheus", icon: ICON.prometheus },
-      { name: "Grafana", icon: ICON.grafana },
-    ],
+    stack: ["Java 17", "Spring Boot", "MySQL", "Redis", "Nginx", "Prometheus", "Grafana"],
     steps: [
       {
         title: "시세·랭킹 조회만 Redis로 캐싱",
         lead: "요청의 대부분이 시세·랭킹 조회였습니다. ",
         strong: "전부 캐싱하면 잔고와 보유 수량이 실제와 달라질 위험이 있었습니다.",
         tail: " 조회가 잦고 정합성 요구가 낮은 데이터만 Redis로 옮기고 거래는 데이터베이스에 남겼습니다.",
+        image: { src: "/mock/stock-step-1.svg", alt: "캐시 적용 전후 응답 시간 (임시 이미지)" },
       },
       {
         title: "낙관적 락으로 동시 주문 처리",
         lead: "같은 계정에서 주문이 동시에 들어오면 잔고와 보유 수량이 어긋납니다. ",
         strong: "충돌 자체는 드물어 전체를 잠그는 비관적 락 대신 낙관적 락으로 충돌만 감지해 재시도하게 했습니다.",
         tail: " 중복 보유 레코드는 계정·종목 복합 키로 막았습니다.",
+        image: { src: "/mock/stock-step-2.svg", alt: "동시 주문 충돌 재현 (임시 이미지)" },
       },
       {
         title: "실행 토큰으로 배치 중복 실행 방지",
@@ -60,7 +59,12 @@ export const PROJECTS: Project[] = [
     highlight: "화물 크기를 측정해 무인 지게차의 적재를 돕는 시스템입니다. 파렛트·화물 인식과 크기 측정, 백엔드를 맡았습니다.",
     summary:
       "화물의 크기와 무게 분포를 측정해 무인 지게차의 운반·적재를 돕는 시스템입니다. 화물을 올려놓는 받침대인 파렛트와 화물을 인식하고 화물 크기를 계산하는 기능을 주로 맡았습니다. 백엔드 개발에도 참여해 측정 장치 사용 제어, 작업 상태 관리, 적재 위치 추천을 담당했습니다.",
-    mediaPlan: "파렛트 인식 전후 비교와 화물 측정·운반 시연이 이 자리에 들어갑니다",
+    // TODO: 파렛트 인식 전후 비교와 화물 측정·운반 시연 추가
+    media: [
+      { src: "/mock/forklift-1.svg", alt: "파렛트 인식 전후", caption: "파렛트 인식 전후" },
+      { src: "/mock/forklift-2.svg", alt: "화물 측정", caption: "화물 측정" },
+      { src: "/mock/forklift-3.svg", alt: "운반 시연", caption: "운반 시연" },
+    ],
     metrics: [
       { label: "플라스틱 파렛트 검출", value: "12장 중 0장 → 12장" },
       { label: "실제 환경의 추가 학습 사진", value: "289장" },
@@ -68,19 +72,20 @@ export const PROJECTS: Project[] = [
     ],
     metricNote: "파렛트 검출은 개선 전후 같은 촬영 사진 12장과 신뢰도 0.5 이상을 기준으로 확인했습니다.",
     stack: [
-      { name: "Python", icon: ICON.python },
-      { name: "PyTorch", icon: ICON.pytorch },
-      { name: "RTMDet / MMDetection", abbr: "MM" },
-      { name: "ONNX Runtime", abbr: "ON" },
-      { name: "OpenCV", icon: ICON.opencv },
-      { name: "Java 21", icon: ICON.java },
-      { name: "Spring Boot", icon: ICON.spring },
-      { name: "MySQL", icon: ICON.mysql },
+      "Python",
+      "PyTorch",
+      "RTMDet / MMDetection",
+      "ONNX Runtime",
+      "OpenCV",
+      "Java 21",
+      "Spring Boot",
+      "MySQL",
     ],
     steps: [
       {
         title: "촬영 사진으로 파렛트 인식 개선",
         lead: "기존 모델은 목재 파렛트 사진 위주로 학습돼 있어 플라스틱 파렛트를 촬영한 사진 12장에서는 모두 검출에 실패했습니다.\n\n실험 환경에서 촬영한 사진 289장에 팀원과 함께 파렛트의 위치를 표시해 모델을 추가 학습시켰습니다. 사진에 변형을 주어 학습 데이터도 보완했습니다. 다시 평가하자 같은 사진 12장 모두에서 파렛트를 찾아냈습니다.",
+        image: { src: "/mock/forklift-step-1.svg", alt: "파렛트 검출 비교 (임시 이미지)" },
       },
       {
         title: "정답 데이터 재작성과 재평가",
@@ -106,16 +111,14 @@ export const PROJECTS: Project[] = [
     highlight: "바이브 코딩으로 만든 서비스를 개발자와 함께 완성하는 외주·컨설팅 플랫폼입니다.",
     summary:
       "바이브 코딩으로 만든 서비스를 개발자와 함께 완성하는 외주·컨설팅 플랫폼입니다.",
-    mediaPlan: "코밋 서비스 화면과 시연 영상이 이 자리에 들어갑니다",
-    metrics: [],
-    stack: [
-      { name: "Java 21" },
-      { name: "Spring Boot" },
-      { name: "PostgreSQL" },
-      { name: "Redis" },
-      { name: "FastAPI" },
-      { name: "WebRTC" },
+    // TODO: 코밋 서비스 화면과 시연 영상 추가
+    media: [
+      { src: "/mock/komit-1.svg", alt: "서비스 메인", caption: "서비스 메인" },
+      { src: "/mock/komit-2.svg", alt: "프로젝트 매칭", caption: "프로젝트 매칭" },
+      { src: "/mock/komit-3.svg", alt: "화상 컨설팅", caption: "화상 컨설팅" },
     ],
+    metrics: [],
+    stack: ["Java 21", "Spring Boot", "PostgreSQL", "Redis", "FastAPI", "WebRTC"],
     // 담당 역할과 문제 해결 과정은 정리되면 role과 steps에 채웁니다. 비어 있으면 화면에서 해당 부분을 숨깁니다.
     steps: [],
     links: [],
@@ -131,17 +134,12 @@ export const PROJECTS: Project[] = [
     role: "환경 구축·EDA·학습·프롬프트 튜닝",
     summary:
       "팀원마다 실험 조건이 달라 결과를 비교할 수 없었습니다. 시드와 하이퍼파라미터를 고정하고 데이터 로드부터 추론까지 하나의 파이프라인으로 묶은 뒤, 같은 조건에서 30회 실험을 비교했습니다.",
-    mediaPlan: "실험 비교 화면이 이 자리에 들어갑니다",
+    // TODO: 실험 비교 화면 추가
     metrics: [
       { label: "정확도", value: "0.91683 → 0.93299" },
       { label: "동일 조건 실험", value: "30회 비교" },
     ],
-    stack: [
-      { name: "Python", icon: ICON.python },
-      { name: "PyTorch", icon: ICON.pytorch },
-      { name: "Hugging Face", icon: ICON.huggingface },
-      { name: "Qwen", abbr: "Q" },
-    ],
+    stack: ["Python", "PyTorch", "Hugging Face", "Qwen"],
     steps: [
       {
         lead: "팀원마다 난수 시드와 하이퍼파라미터가 달라, 점수가 올라도 무엇 때문인지 알 수 없었습니다. ",
@@ -174,14 +172,9 @@ export const PROJECTS: Project[] = [
     role: "기획·DB·백엔드·프론트엔드",
     summary:
       "쉐어하우스를 등록하고 조건에 맞는 방을 찾아 예약하는 서비스입니다. 사진은 S3에, 데이터는 데이터베이스에 나눠 저장하고, 서버가 화면을 그리던 초기 구조를 REST API와 JWT 인증으로 다시 만들었습니다.",
-    mediaPlan: "하우스 목록·상세와 예약 화면이 이 자리에 들어갑니다",
+    // TODO: 하우스 목록·상세와 예약 화면 추가
     metrics: [],
-    stack: [
-      { name: "Java", icon: ICON.java },
-      { name: "Spring Boot", icon: ICON.spring },
-      { name: "AWS S3", icon: ICON.aws },
-      { name: "Swagger", icon: ICON.swagger },
-    ],
+    stack: ["Java", "Spring Boot", "AWS S3", "Swagger"],
     steps: [
       {
         lead: "하우스 사진 용량이 커서 데이터베이스에 함께 저장하면 트랜잭션이 길어졌습니다. ",
@@ -212,13 +205,9 @@ export const PROJECTS: Project[] = [
     role: "기여도 30% · 핵심 게임 로직·데이터 구조",
     summary:
       "건물을 세워 재화를 모으고 타워디펜스로 방어하는 방치형 게임입니다. 재화가 바뀔 때마다 서버에 저장하던 구조를 메모리 상태 관리와 일괄 저장으로 바꿨습니다.",
-    mediaPlan: "게임 플레이 화면이 이 자리에 들어갑니다",
+    // TODO: 게임 플레이 화면 추가
     metrics: [],
-    stack: [
-      { name: "C#", icon: ICON.csharp },
-      { name: "Unity", icon: ICON.unity },
-      { name: "Firebase", icon: ICON.firebase },
-    ],
+    stack: ["C#", "Unity", "Firebase"],
     steps: [
       {
         lead: "재화가 바뀔 때마다 Firebase에 쓰는 구조여서 조작 한 번에 네트워크 요청이 따라붙었습니다. ",

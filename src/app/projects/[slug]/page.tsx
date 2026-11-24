@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Header } from "@/components/header/Header";
-import { ProjectDetail, ProjectHeader, ProjectPager } from "@/components/project/ProjectDetail";
+import { TopBar } from "@/components/layout/TopBar";
+import { ProjectDetailView } from "@/components/project/ProjectDetailView";
 import { findProject, getNeighbors, getVisibleProjects } from "@/lib/project";
 import { OG_IMAGE } from "@/lib/site";
 
@@ -30,27 +29,20 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
   };
 }
 
+/** 주소로 바로 들어오거나 새로고침했을 때 보이는 단독 상세 페이지. 메인에서 누르면 같은 내용이 패널로 열립니다. */
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
   const projects = getVisibleProjects();
   const index = projects.findIndex((project) => project.slug === slug);
   if (index < 0) notFound();
 
-  const project = projects[index];
   const { prev, next } = getNeighbors(projects, index);
 
   return (
     <>
-      <Header isHome={false} />
-      <main className="mx-auto w-full max-w-[720px] px-3 pt-6 pb-16">
-        <Link href="/#project" className="mb-4 inline-flex text-sm font-semibold">
-          ← 전체 프로젝트
-        </Link>
-        <article className="overflow-hidden rounded-xl border border-line bg-bg">
-          <ProjectHeader project={project} titleLevel={1} />
-          <ProjectDetail project={project} titleLevel={1} />
-          <ProjectPager prev={prev} next={next} />
-        </article>
+      <TopBar isHome={false} />
+      <main id="top" className="pt-[72px]">
+        <ProjectDetailView project={projects[index]} prev={prev} next={next} />
       </main>
     </>
   );

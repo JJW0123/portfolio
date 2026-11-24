@@ -17,13 +17,13 @@ export function GET() {
           flexDirection: "column",
           justifyContent: "center",
           padding: "0 96px",
-          background: "linear-gradient(135deg, #071726 0%, #0d2338 60%, #122c44 100%)",
-          color: "#e6f1fa",
+          background: "#ffffff",
+          color: "#111111",
         }}
       >
-        <div style={{ fontSize: 32, fontWeight: 700, color: "#4fb1f0", letterSpacing: 2 }}>PORTFOLIO</div>
+        <div style={{ fontSize: 32, fontWeight: 700, color: "#e8470a", letterSpacing: 2 }}>PORTFOLIO</div>
         <div style={{ marginTop: 24, fontSize: 88, fontWeight: 800, lineHeight: 1.1 }}>Backend Developer</div>
-        <div style={{ marginTop: 32, fontSize: 36, color: "#a7c2d8" }}>
+        <div style={{ marginTop: 32, fontSize: 36, color: "#6b6b6b" }}>
           {`github.com/${PROFILE.githubHandle.replace("@", "")}`}
         </div>
       </div>

@@ -1,29 +1,28 @@
+import { Section } from "@/components/layout/Section";
 import { PROFILE } from "@/data/profile";
 
 export function Contact() {
+  const rows = [
+    { label: "이메일", text: PROFILE.email, href: `mailto:${PROFILE.email}` },
+    { label: "GitHub", text: PROFILE.github.replace("https://", ""), href: PROFILE.github },
+  ];
+
   return (
-    <section aria-labelledby="contact-heading" className="w-full pt-22 pb-26">
-      <div data-su>
-        <h2 id="contact-heading" className="m-0 mb-7 text-center text-[30px] leading-[1.45] font-bold text-ink">
-          감사합니다
-          <br />
-          더 궁금한 점이 있다면
-          <br />
-          편하게 연락주세요
-        </h2>
-        <dl className="mx-auto my-0 grid w-[340px] max-w-full grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-3.5 rounded-lg border border-line bg-surface px-7 py-6 text-[15px]">
-          <dt className="font-bold text-ink">이메일</dt>
-          <dd className="m-0 [overflow-wrap:anywhere]">
-            <a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
-          </dd>
-          <dt className="font-bold text-ink">GitHub</dt>
-          <dd className="m-0">
-            <a href={PROFILE.github} target="_blank" rel="noopener noreferrer">
-              {PROFILE.githubHandle}
+    <Section id="contact" num="05" title="연락처" className="contact-reveal [&>div]:pb-16 lg:[&>div]:pb-24">
+      <ul className="m-0 list-none p-0">
+        {rows.map((row) => (
+          <li key={row.label} className="grid gap-1 border-b border-line py-4 md:grid-cols-[200px_minmax(0,1fr)] md:items-baseline md:gap-10">
+            <span className="text-sm text-muted">{row.label}</span>
+            <a
+              href={row.href}
+              {...(row.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              className="min-w-0 justify-self-start text-lg [overflow-wrap:anywhere] transition-colors hover:text-accent"
+            >
+              {row.text}
             </a>
-          </dd>
-        </dl>
-      </div>
-    </section>
+          </li>
+        ))}
+      </ul>
+    </Section>
   );
 }

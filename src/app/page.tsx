@@ -1,29 +1,36 @@
-import { Header } from "@/components/header/Header";
 import { Hero } from "@/components/hero/Hero";
-import { ProjectDrawer } from "@/components/project/ProjectDrawer";
-import { ProjectDrawerProvider } from "@/components/project/ProjectDrawerContext";
-import { RevealObserver } from "@/components/RevealObserver";
+import { Footer } from "@/components/layout/Footer";
+import { ScrollHighlight } from "@/components/layout/ScrollHighlight";
+import { ProjectPanel } from "@/components/project/ProjectPanel";
+import { SideProgress } from "@/components/layout/SideProgress";
+import { TopBar } from "@/components/layout/TopBar";
+import { Career } from "@/components/sections/Career";
 import { Contact } from "@/components/sections/Contact";
-import { History } from "@/components/sections/History";
-import { ProjectList } from "@/components/sections/ProjectList";
+import { Education } from "@/components/sections/Education";
+import { Projects } from "@/components/sections/Projects";
 import { Skills } from "@/components/sections/Skills";
 import { getVisibleProjects } from "@/lib/project";
+import { HOME_SECTIONS } from "@/lib/site";
 
 export default function HomePage() {
   const projects = getVisibleProjects();
-
   return (
-    <ProjectDrawerProvider projects={projects}>
-      <Header />
-      <main className="relative mx-auto flex w-full max-w-5xl flex-col items-center px-[clamp(20px,3vw,40px)]">
-        <Hero />
-        <History />
-        <ProjectList projects={projects} />
-        <Skills />
-        <Contact />
-      </main>
-      <ProjectDrawer />
-      <RevealObserver />
-    </ProjectDrawerProvider>
+    <>
+      <div id="home-content">
+        <TopBar />
+        <main>
+          <Hero />
+          <Career />
+          <Projects projects={projects} />
+          <Skills />
+          <Education />
+          <Contact />
+        </main>
+        <Footer />
+        <SideProgress sections={HOME_SECTIONS} />
+        <ScrollHighlight />
+      </div>
+      <ProjectPanel projects={projects} backgroundId="home-content" />
+    </>
   );
 }
