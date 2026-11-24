@@ -52,19 +52,40 @@ export const HISTORY: HistoryGroup[] = [
   },
 ];
 
+const DEVICON = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons";
+
 // TODO(확인 필요): level은 디자인 시안의 임시값입니다. 본인 기준으로 고쳐 주세요.
 export const MAIN_SKILLS: MainSkill[] = [
-  { name: "Java", level: 4, note: "인턴 관리자 시스템, 가상 주식 시뮬레이션, 무인 지게차 백엔드를 Java로 구현했습니다." },
-  { name: "Spring Boot", level: 4, note: "REST API, 예외 응답 규칙, 스케줄러와 낙관적 락 기반 주문 처리를 구현했습니다." },
-  { name: "MySQL", level: 4, note: "39개 테이블 정규화 ERD를 설계하고, 복합 키와 조건부 UPDATE로 정합성을 지켰습니다." },
-  { name: "Redis", level: 3, note: "시세·랭킹 조회 캐시와 TTL 실행 토큰으로 배치 중복 실행을 막았습니다." },
-  { name: "Python", level: 3, note: "파렛트 검출 모델 추가 학습과 30회 비교 실험 파이프라인을 작성했습니다." },
+  {
+    name: "Java",
+    icon: `${DEVICON}/java/java-original.svg`,
+    level: 4,
+    note: "인턴 관리자 시스템, 가상 주식 시뮬레이션, 무인 지게차 백엔드를 Java로 구현했습니다.",
+  },
+  {
+    name: "Spring Boot",
+    icon: `${DEVICON}/spring/spring-original.svg`,
+    level: 4,
+    note: "REST API, 예외 응답 규칙, 스케줄러와 낙관적 락 기반 주문 처리를 구현했습니다.",
+  },
+  {
+    name: "MySQL",
+    icon: `${DEVICON}/mysql/mysql-original.svg`,
+    level: 4,
+    note: "39개 테이블 정규화 ERD를 설계하고, 복합 키와 조건부 UPDATE로 정합성을 지켰습니다.",
+  },
+  {
+    name: "Redis",
+    icon: `${DEVICON}/redis/redis-original.svg`,
+    level: 3,
+    note: "시세와 랭킹 조회를 캐싱하고, 만료 시간이 있는 실행 토큰으로 배치 중복 실행을 막았습니다.",
+  },
 ];
 
 export const OTHER_SKILLS: OtherSkillGroup[] = [
   { label: "인프라", items: ["Docker Compose", "Nginx", "Oracle Cloud VM", "AWS EC2 · S3"] },
   { label: "모니터링", items: ["Prometheus", "Grafana Cloud"] },
   { label: "API · 인증", items: ["Swagger", "JWT"] },
-  { label: "AI · 비전", items: ["PyTorch", "Hugging Face", "OpenCV", "ONNX Runtime"] },
-  { label: "기타", items: ["MQTT", "Firebase", "C#", "Unity"] },
+  { label: "AI", items: ["Python", "PyTorch", "Hugging Face"] },
+  { label: "기타", items: ["Firebase", "C#", "Unity"] },
 ];

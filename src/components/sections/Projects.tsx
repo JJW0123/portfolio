@@ -18,7 +18,7 @@ export function Projects({ projects }: { projects: Project[] }) {
             <Link
               href={`/projects/${project.slug}/`}
               className="group grid grid-cols-[auto_minmax(0,1fr)_auto] gap-5 py-[30px] md:gap-7"
-              {...bind(project.media?.[0])}
+              {...bind(project.hoverPreview ?? project.media?.[0])}
               onClick={(event) => {
                 if (!isPlainClick(event)) return;
                 event.preventDefault();

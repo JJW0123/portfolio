@@ -1,6 +1,5 @@
 import { Hero } from "@/components/hero/Hero";
 import { Footer } from "@/components/layout/Footer";
-import { ScrollHighlight } from "@/components/layout/ScrollHighlight";
 import { ProjectPanel } from "@/components/project/ProjectPanel";
 import { SideProgress } from "@/components/layout/SideProgress";
 import { TopBar } from "@/components/layout/TopBar";
@@ -28,7 +27,6 @@ export default function HomePage() {
         </main>
         <Footer />
         <SideProgress sections={HOME_SECTIONS} />
-        <ScrollHighlight />
       </div>
       <ProjectPanel projects={projects} backgroundId="home-content" />
     </>

@@ -11,6 +11,7 @@ import { fullMeta, padNumber } from "@/lib/project";
 import { CountUp } from "./CountUp";
 import { MediaSlider } from "./MediaSlider";
 import { ProjectPager } from "./ProjectPager";
+import { useImageZoom } from "./useImageZoom";
 
 function InfoRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -36,6 +37,8 @@ interface ProjectDetailViewProps {
 export function ProjectDetailView({ project, prev, next, scrollContainer, onSelectProject, onScrollTop }: ProjectDetailViewProps) {
   const isPanel = Boolean(scrollContainer);
   const slides = project.media ?? [];
+  const { retroMedia } = project;
+  const { openImage, imageZoom } = useImageZoom();
 
   const sections = [
     { id: "overview", label: "개요", show: true },
@@ -62,7 +65,9 @@ export function ProjectDetailView({ project, prev, next, scrollContainer, onSele
         </div>
       </header>
 
-      {slides.length > 0 && <MediaSlider slides={slides} label={`${project.title} 화면`} />}
+      {slides.length > 0 && (
+        <MediaSlider slides={slides} label={`${project.title} 화면`} note={project.mediaNote} />
+      )}
 
       <Section id="overview" num={num("overview")} title="개요">
         <dl className="m-0">
@@ -77,6 +82,9 @@ export function ProjectDetailView({ project, prev, next, scrollContainer, onSele
           {project.stack.length > 0 && (
             <InfoRow label="사용 기술">
               <p className="m-0 text-base leading-[1.7] text-body">{project.stack.join(", ")}</p>
+              {project.stackNote && (
+                <p className="m-0 mt-2 text-base leading-[1.7] text-body">{project.stackNote}</p>
+              )}
             </InfoRow>
           )}
           {(project.links.length > 0 || project.note) && (
@@ -102,7 +110,7 @@ export function ProjectDetailView({ project, prev, next, scrollContainer, onSele
 
       {project.metrics.length > 0 && (
         <Section id="results" num={num("results")} title="성과">
-          <dl className="m-0 grid gap-8 md:grid-cols-3 md:gap-0">
+          <dl className={cn("m-0 grid gap-8 md:gap-0", project.metrics.length === 2 ? "md:grid-cols-2" : "md:grid-cols-3")}>
             {project.metrics.map((metric, i) => (
               <div
                 key={metric.label}
@@ -155,6 +163,25 @@ export function ProjectDetailView({ project, prev, next, scrollContainer, onSele
       {project.ps && (
         <Section id="retro" num={num("retro")} title="회고">
           <p className="m-0 max-w-[640px] text-[17px] leading-[1.8]">{project.ps}</p>
+          {retroMedia && (
+            <figure className="m-0 mt-6 max-w-[801px]">
+              <button
+                type="button"
+                aria-haspopup="dialog"
+                aria-label={`이미지 확대: ${retroMedia.caption ?? retroMedia.alt}`}
+                onClick={(event) => openImage(retroMedia, event.currentTarget, true)}
+                className="relative block w-full cursor-zoom-in border-0 bg-transparent p-0"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element -- 정적 내보내기에서 원본을 사용합니다. */}
+                <img src={retroMedia.src} alt={retroMedia.alt} className="block h-auto w-full" />
+              </button>
+              <figcaption className="mt-2 flex flex-wrap justify-between gap-x-3 text-xs leading-relaxed text-muted">
+                <span>{retroMedia.caption}</span>
+                <span>눌러서 확대</span>
+              </figcaption>
+            </figure>
+          )}
+          {retroMedia && imageZoom}
         </Section>
       )}
 

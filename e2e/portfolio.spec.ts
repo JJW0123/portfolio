@@ -23,7 +23,8 @@ test.describe("홈", () => {
   });
 
   test("프로젝트를 누르면 주소만 바뀌며 패널이 열리고, 뒤로 가기로 닫으면 메인 위치가 그대로다", async ({ page }) => {
-    await page.goto("/");
+    // 하이드레이션 전에 누르면 패널 대신 단독 페이지로 이동하므로, 스크립트가 다 붙을 때까지 기다립니다.
+    await page.goto("/", { waitUntil: "networkidle" });
     await page.locator("#project").scrollIntoViewIfNeeded();
     const before = await page.evaluate(() => window.scrollY);
 
@@ -44,7 +45,7 @@ test.describe("홈", () => {
   });
 
   test("패널은 Esc로도 닫힌다", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/", { waitUntil: "networkidle" });
     const trigger = page.locator("#project ol a").nth(1);
     await trigger.focus();
     await page.keyboard.press("Enter");
@@ -106,6 +107,56 @@ test.describe("스크립트 없이 보는 좁은 화면", () => {
 });
 
 test.describe("프로젝트 상세 페이지", () => {
+  test("회고에서 Grafana 요청률 그래프를 원본 크기로 확대한다", async ({ page }) => {
+    await page.goto("/projects/stock-simulation/");
+    const trigger = page.locator("#retro").getByRole("button", { name: /이미지 확대:.*API 요청률/ });
+    await trigger.click();
+    const zoom = page.getByRole("dialog", { name: "이미지 확대 보기" });
+    const image = zoom.getByRole("img", { name: /초당 API 요청 수/ });
+    await expect(zoom).toBeVisible();
+    const sizes = await image.evaluate(async (element: HTMLImageElement) => {
+      await element.decode();
+      return { natural: element.naturalWidth, displayed: element.getBoundingClientRect().width };
+    });
+    expect(sizes).toEqual({ natural: 801, displayed: 801 });
+    await page.keyboard.press("Escape");
+    await expect(zoom).not.toBeVisible();
+    await expect(trigger).toBeFocused();
+  });
+
+  test("선택한 사진을 확대하고 닫으면 같은 사진으로 돌아간다", async ({ page }) => {
+    await page.goto("/projects/stock-simulation/");
+    const imageButton = page.getByRole("button", { name: /^이미지 확대: 종목 목록/ });
+    await imageButton.click();
+    const zoom = page.getByRole("dialog", { name: "이미지 확대 보기" });
+    const enlarged = zoom.getByRole("img");
+    await expect(zoom).toBeVisible();
+    await expect(enlarged).toHaveAttribute("src", /\/1-market\.png$/);
+    const displayedWidth = await enlarged.evaluate(async (image: HTMLImageElement) => {
+      await image.decode();
+      return image.getBoundingClientRect().width;
+    });
+    expect(displayedWidth).toBeGreaterThan(250);
+    await zoom.getByRole("button", { name: "닫기" }).click();
+    await expect(zoom).not.toBeVisible();
+    await expect(imageButton).toBeFocused();
+  });
+
+  test("상세 패널에서 Esc는 이미지 확대부터 닫는다", async ({ page }) => {
+    await page.goto("/");
+    await page.locator("#project ol a").first().click();
+    const panel = page.getByRole("dialog", { name: "가상 주식 시뮬레이션" });
+    const imageButton = panel.getByRole("button", { name: /^이미지 확대: 종목 목록/ });
+    await imageButton.click();
+    const zoom = page.getByRole("dialog", { name: "이미지 확대 보기" });
+    await expect(zoom).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(zoom).not.toBeVisible();
+    await expect(panel).toBeVisible();
+    await expect(imageButton).toBeFocused();
+    await expect(page).toHaveURL("/projects/stock-simulation/");
+  });
+
   test("제목을 보여주고 다음 프로젝트 링크로 이동한다", async ({ page }) => {
     await page.goto("/projects/forklift/");
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("무인 지게차 물류 자동화");

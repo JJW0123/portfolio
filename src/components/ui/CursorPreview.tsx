@@ -50,7 +50,7 @@ function CursorPreview({ media, x, y }: { media: MediaItem | null; x: MotionValu
           transition={{ duration: 0.25 }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element -- 정적 내보내기라 next/image 최적화를 쓰지 않습니다. */}
-          <img src={media.src} alt="" className="block aspect-[3/2] w-full object-cover" />
+          <img src={media.src} alt="" className="block aspect-[3/2] w-full object-contain" />
         </motion.div>
       )}
     </AnimatePresence>

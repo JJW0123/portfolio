@@ -36,14 +36,18 @@ export interface Project {
   /** 목록 행에 보이는 한 줄 소개입니다. 처음 보는 사람도 읽을 수 있게 전문 용어 없이 씁니다. */
   highlight?: string;
   summary: string;
+  hoverPreview?: MediaItem;
   /** 상세 페이지 상단 슬라이드. 첫 장은 목록에 마우스를 올렸을 때 미리보기로도 쓰입니다. */
   media?: MediaItem[];
+  mediaNote?: string;
   metrics: Metric[];
   metricNote?: string;
   stack: string[];
+  stackNote?: string;
   steps: ProblemStep[];
   /** 상세 페이지의 회고 칸 */
   ps?: string;
+  retroMedia?: MediaItem;
   links: ProjectLink[];
   note?: string;
   /** 목록과 상세 페이지에서 제외합니다. */
@@ -68,6 +72,8 @@ export type SkillLevel = 1 | 2 | 3 | 4 | 5;
 
 export interface MainSkill {
   name: string;
+  /** 기술 대표 로고 이미지 주소 */
+  icon: string;
   level: SkillLevel;
   /** 이 기술로 무엇을 했는지 한 문장 */
   note: string;

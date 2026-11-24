@@ -81,21 +81,14 @@
   }
 }
 
-/* 화면 가운데에 온 줄만 진하게 (Scroll highlight). JS가 없거나 움직임을 줄이면 전부 진하게 보입니다. */
-[data-hl] {
-  transition: opacity 0.4s var(--ease-out-soft);
-}
-html.hl-on [data-hl]:not([data-hl="on"]) {
-  opacity: 0.35;
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-  html.hl-on [data-hl]:not([data-hl="on"]) {
-    opacity: 1;
-  }
+}
+
+html:has(.project-image-zoom[open]) {
+  overflow: hidden;
 }
 
 @keyframes reveal-contact {

@@ -22,7 +22,7 @@ export function Career() {
               {item.details && (
                 <ul className="m-0 flex list-none flex-col gap-1.5 p-0">
                   {item.details.map((detail) => (
-                    <li key={detail} className="text-[15px] leading-[1.6] text-body" data-hl="">
+                    <li key={detail} className="text-[15px] leading-[1.6] text-body">
                       — {detail}
                     </li>
                   ))}

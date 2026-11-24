@@ -48,11 +48,15 @@ export function Skills() {
         {MAIN_SKILLS.map((skill) => (
           <li
             key={skill.name}
-            className="grid gap-3 border-b border-line py-[22px] md:grid-cols-[200px_minmax(0,1fr)] md:items-center md:gap-10"
+            className="grid gap-3 border-b border-line py-[22px] md:grid-cols-[260px_minmax(0,1fr)] md:items-center md:gap-10"
           >
-            <div className="flex flex-col gap-2">
-              <span className="text-[22px] font-semibold">{skill.name}</span>
-              <LevelBar level={skill.level} />
+            <div className="flex items-center gap-4">
+              {/* eslint-disable-next-line @next/next/no-img-element -- 정적 내보내기라 next/image 최적화를 쓰지 않습니다. */}
+              <img src={skill.icon} alt="" width={40} height={40} loading="lazy" className="size-10 shrink-0 object-contain" />
+              <div className="flex flex-col gap-2">
+                <span className="text-[22px] font-semibold">{skill.name}</span>
+                <LevelBar level={skill.level} />
+              </div>
             </div>
             <p className="m-0 text-[15px] leading-[1.6] text-body">{skill.note}</p>
           </li>
@@ -68,7 +72,7 @@ export function Skills() {
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
         {OTHER_SKILLS.map((group) => (
-          <li key={group.label} className="grid gap-1 border-b border-line py-3.5 md:grid-cols-[200px_minmax(0,1fr)] md:gap-10">
+          <li key={group.label} className="grid gap-1 border-b border-line py-3.5 md:grid-cols-[260px_minmax(0,1fr)] md:gap-10">
             <span className="text-sm text-muted">{group.label}</span>
             <span className="text-base">{group.items.join(", ")}</span>
           </li>
