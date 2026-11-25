@@ -16,7 +16,7 @@ export function Contact() {
             <a
               href={row.href}
               {...(row.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              className="min-w-0 justify-self-start text-lg [overflow-wrap:anywhere] transition-colors hover:text-accent"
+              className="min-w-0 justify-self-start text-lg [overflow-wrap:anywhere] transition-colors hover:text-accent-ink focus-visible:text-accent-ink"
             >
               {row.text}
             </a>

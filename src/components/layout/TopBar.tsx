@@ -16,7 +16,7 @@ export function ThemeToggle() {
       onClick={toggleTheme}
       aria-label={label}
       title={label}
-      className="flex size-8 cursor-pointer items-center justify-center border-0 bg-transparent p-0 text-muted transition-colors hover:text-ink"
+      className="flex size-8 cursor-pointer items-center justify-center border-0 bg-transparent p-0 text-muted transition-colors hover:text-accent-ink focus-visible:text-accent-ink"
     >
       {/* 아이콘은 CSS로 바꿔 hydration 전에도 테마와 어긋나지 않게 합니다. 라이트에서는 달, 다크에서는 해가 보입니다. */}
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="dark:hidden">
@@ -69,8 +69,8 @@ export function TopBar({ isHome = true }: { isHome?: boolean }) {
                 <a
                   href={`${prefix}#${id}`}
                   className={cn(
-                    "text-sm transition-colors hover:text-ink",
-                    !isHome && id === "project" ? "text-ink" : "text-muted",
+                    "text-sm transition-colors hover:text-accent-ink focus-visible:text-accent-ink",
+                    !isHome && id === "project" ? "text-accent-ink" : "text-muted",
                   )}
                 >
                   {short}

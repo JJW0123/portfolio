@@ -109,7 +109,7 @@ test.describe("스크립트 없이 보는 좁은 화면", () => {
 test.describe("프로젝트 상세 페이지", () => {
   test("회고에서 Grafana 요청률 그래프를 원본 크기로 확대한다", async ({ page }) => {
     await page.goto("/projects/stock-simulation/");
-    const trigger = page.locator("#retro").getByRole("button", { name: /이미지 확대:.*API 요청률/ });
+    const trigger = page.locator("#retro").getByRole("button", { name: /이미지 확대:.*초당 요청 수/ });
     await trigger.click();
     const zoom = page.getByRole("dialog", { name: "이미지 확대 보기" });
     const image = zoom.getByRole("img", { name: /초당 API 요청 수/ });
@@ -131,7 +131,7 @@ test.describe("프로젝트 상세 페이지", () => {
     const zoom = page.getByRole("dialog", { name: "이미지 확대 보기" });
     const enlarged = zoom.getByRole("img");
     await expect(zoom).toBeVisible();
-    await expect(enlarged).toHaveAttribute("src", /\/1-market\.png$/);
+    await expect(enlarged).toHaveAttribute("src", /\/market-overview\.png$/);
     const displayedWidth = await enlarged.evaluate(async (image: HTMLImageElement) => {
       await image.decode();
       return image.getBoundingClientRect().width;

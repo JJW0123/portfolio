@@ -52,12 +52,12 @@ export function ProjectDetailView({ project, prev, next, scrollContainer, onSele
     <>
       <header className={cn(SECTION_INNER, "flex flex-col gap-6 pb-16", isPanel ? "pt-6" : "pt-14")}>
         {!isPanel && (
-          <Link href="/#project" className="self-start text-sm text-muted transition-colors hover:text-ink">
+          <Link href="/#project" className="self-start text-sm text-muted transition-colors hover:text-accent-ink focus-visible:text-accent-ink">
             ← 전체 프로젝트
           </Link>
         )}
         <div className="flex flex-col gap-4 pt-6 lg:pt-10">
-          {project.badge && <p className="m-0 text-[15px] font-semibold text-accent">{project.badge}</p>}
+          {project.badge && <p className="m-0 text-[15px] font-semibold text-accent-ink">{project.badge}</p>}
           <h1 className="m-0 text-[clamp(36px,4.5vw,64px)] leading-[1.3] font-semibold tracking-[-0.04em]">
             {project.title}
           </h1>
@@ -96,7 +96,7 @@ export function ProjectDetailView({ project, prev, next, scrollContainer, onSele
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-base font-medium transition-colors hover:text-accent"
+                    className="text-base font-medium transition-colors hover:text-accent-ink focus-visible:text-accent-ink"
                   >
                     {link.label} ↗
                   </a>
@@ -142,7 +142,11 @@ export function ProjectDetailView({ project, prev, next, scrollContainer, onSele
                     {step.strong && <span className="text-ink">{step.strong}</span>}
                     {step.tail}
                   </p>
-                  {step.result && <p className="m-0 font-mono text-sm text-ink">→ {step.result}</p>}
+                  {step.result && (
+                    <p className="m-0 font-mono text-sm text-ink">
+                      <span aria-hidden="true" className="text-muted">→</span> {step.result}
+                    </p>
+                  )}
                 </div>
                 {step.image && (
                   <a href={step.image.src} target="_blank" rel="noopener noreferrer" className="shrink-0 self-start">

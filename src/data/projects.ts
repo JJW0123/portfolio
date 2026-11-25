@@ -83,22 +83,22 @@ export const PROJECTS: Project[] = [
     },
     media: [
       {
-        src: "/projects/forklift/monitoring-demo.webp",
+        src: "/projects/forklift/gallery-monitoring.webp",
         alt: "Isaac Sim 창고와 화물 측정 영상, 시뮬레이션 차량 위치가 함께 표시된 관제 화면",
         caption: "Isaac Sim 관제 화면 · 팀 시연 영상 캡처",
       },
       {
-        src: "/projects/forklift/cargo-measurement.webp",
-        alt: "상자에 검출 테두리를 그리고 거리, 너비, 높이를 표시한 실험 화면",
+        src: "/projects/forklift/gallery-measurement.webp",
+        alt: "상자 검출 화면과 측정 거리 65.1cm, 너비 26.5cm, 높이 15.5cm",
         caption: "화물 치수 측정 · 실험 화면",
       },
       {
-        src: "/projects/forklift/forklift-and-pallet.webp",
+        src: "/projects/forklift/gallery-model.webp",
         alt: "모형 선반 앞에 놓인 무인 지게차와 흰색 파렛트",
         caption: "무인 지게차와 파렛트 · 축소 모형",
       },
       {
-        src: "/projects/forklift/front-camera.webp",
+        src: "/projects/forklift/gallery-front.webp",
         alt: "지게차 전면에 달린 카메라와 포크, 그 앞에 놓인 파렛트",
         caption: "지게차 전면 · 카메라와 포크",
       },
@@ -133,10 +133,10 @@ export const PROJECTS: Project[] = [
         result: "검출 성능(mAP@0.5) 100% → 98.42%",
       },
       {
-        title: "축소 모형의 치수 오차 검증",
-        lead: "서버가 화물을 올릴 수 있는 선반을 고르려면 높이와 너비를 정확히 재야 했습니다. 작은 모형에서는 몇 mm의 오차를 자로 구분하기 어려웠습니다.\n\n",
+        title: "실물 상자로 치수 오차 검증",
+        lead: "측정한 치수는 화물이 들어갈 선반을 고르는 데 쓰였습니다. 오차가 허용 범위에 드는지 확인해야 했지만, 축소 모형에서는 몇 mm 차이를 자로 구분하기 어려웠습니다.\n\n",
         strong: "실물 상자 3종을 거리와 방향을 바꿔 촬영했습니다. 카메라와 거리 센서로 계산한 치수를 자로 잰 값과 비교했습니다.",
-        tail: " 센서가 뒤쪽 벽의 거리를 잰 14장과 사람이나 여러 상자가 찍힌 28장은 비교에서 제외했습니다. 남은 53장의 오차를 1/10 모형 기준으로 환산했습니다.",
+        tail: " 거리 센서가 뒤쪽 벽까지의 거리를 기록한 사진 14장과 사람이나 여러 상자가 찍힌 28장은 비교에서 제외했습니다. 남은 53장의 오차를 1/10 모형 기준으로 환산했습니다.",
         result: "53장 모두 허용 오차 4mm 이내 · 평균 오차 0.66mm (1/10 모형 기준)",
       },
       {

@@ -13,8 +13,9 @@
   --rule: #111111;
   --surface: #f1f1ef;
   --dot: #d9d9d9;
-  --dot-active: #9a9a9a;
+  --dot-active: var(--accent);
   --accent: #e8470a;
+  --accent-ink: #c43b0b;
   --on-ink: #ffffff;
 }
 
@@ -30,6 +31,7 @@
   --dot: #2c2c2c;
   --dot-active: #6a6a6a;
   --accent: #ededed;
+  --accent-ink: var(--ink);
   --on-ink: #0e0e0e;
 }
 
@@ -43,6 +45,7 @@
   --color-rule: var(--rule);
   --color-surface: var(--surface);
   --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
   --color-on-ink: var(--on-ink);
 
   --font-sans: var(--font-plex-kr), "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
@@ -85,6 +88,19 @@
   html {
     scroll-behavior: auto;
   }
+}
+
+/* 프로젝트 목록에서 한 행을 가리키면 나머지 행을 흐리게 합니다. 터치 기기는 탭한 뒤 흐림이 남지 않도록 제외합니다. */
+.project-list > li {
+  transition: opacity 500ms var(--ease-out-soft);
+}
+@media (hover: hover) {
+  .project-list:has(> li > a:hover) > li:not(:has(> a:hover)) {
+    opacity: 0.3;
+  }
+}
+.project-list:has(> li > a:focus-visible) > li:not(:has(> a:focus-visible)) {
+  opacity: 0.3;
 }
 
 html:has(.project-image-zoom[open]) {

@@ -82,7 +82,7 @@ export function SideProgress({ sections, container }: SideProgressProps) {
     >
       <div ref={railRef} className="absolute top-0 right-0 h-full w-px bg-line">
         <motion.div
-          className="absolute top-0 left-0 h-full w-[2px] origin-top bg-accent"
+          className="absolute top-0 left-0 h-full w-px origin-top bg-ink"
           style={{ scaleY: scrollYProgress }}
         />
         <motion.span
@@ -100,15 +100,15 @@ export function SideProgress({ sections, container }: SideProgressProps) {
               aria-current={i === current ? "location" : undefined}
               className={cn(
                 "cursor-pointer border-0 bg-transparent py-1 pr-6 pl-2 text-right text-[13px] whitespace-nowrap transition-colors duration-200",
-                i === current ? "font-semibold text-ink" : i < current ? "text-body" : "text-faint",
-                "hover:text-ink",
+                i === current ? "font-semibold text-accent-ink" : i < current ? "text-body" : "text-faint",
+                "hover:text-accent-ink focus-visible:text-accent-ink",
               )}
             >
               {label}
             </button>
             <span
               aria-hidden="true"
-              className={cn("absolute right-[-6px] h-px w-[13px]", i <= current ? "bg-ink" : "bg-faint")}
+              className={cn("absolute right-[-6px] h-px w-[13px]", i === current ? "bg-accent" : i < current ? "bg-ink" : "bg-faint")}
             />
           </li>
         ))}

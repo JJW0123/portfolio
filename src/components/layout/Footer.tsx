@@ -9,7 +9,7 @@ interface FooterProps {
 }
 
 export function Footer({ bordered = false, onTop }: FooterProps) {
-  const toTop = "cursor-pointer border-0 bg-transparent p-0 text-[13px] text-muted transition-colors hover:text-ink";
+  const toTop = "cursor-pointer border-0 bg-transparent p-0 text-[13px] text-muted transition-colors hover:text-accent-ink focus-visible:text-accent-ink";
   return (
     <footer className={cn(bordered && "border-t border-line")}>
       <div className={cn(SECTION_INNER, "flex justify-between pt-6 pb-10 text-[13px] text-muted")}>

@@ -105,8 +105,9 @@ export function MediaSlider({ slides, label, note }: MediaSliderProps) {
       {/* 번호는 캡션 길이에 따라 움직이지 않도록 캡션 아래 한가운데에 고정합니다. */}
       <div className="mt-6 flex flex-col items-center gap-2 px-5 text-center" aria-live="polite">
         {current?.caption && <span className="text-[13px] text-muted">{current.caption}</span>}
-        <span className="font-mono text-xs">
-          {padNumber(selected + 1)} / {padNumber(count)}
+        <span className="font-mono text-xs text-muted">
+          <span className="text-ink">{padNumber(selected + 1)}</span>
+          {" / "}{padNumber(count)}
         </span>
       </div>
       {imageZoom}

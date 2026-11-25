@@ -119,7 +119,7 @@ export function ProjectPanel({ projects, backgroundId }: { projects: Project[]; 
                     ref={closeRef}
                     type="button"
                     onClick={close}
-                    className="cursor-pointer border-0 bg-transparent p-0 text-sm text-muted transition-colors hover:text-ink"
+                    className="cursor-pointer border-0 bg-transparent p-0 text-sm text-muted transition-colors hover:text-accent-ink focus-visible:text-accent-ink"
                   >
                     ← 전체 프로젝트
                   </button>
