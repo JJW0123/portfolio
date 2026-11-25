@@ -78,8 +78,9 @@ export function SideProgress({ sections, container }: SideProgressProps) {
   return (
     <nav
       aria-label="읽은 위치"
-      className="fixed top-[15vh] right-7 z-40 hidden h-[70vh] w-[200px] xl:block"
+      className="pointer-events-none fixed top-[15vh] right-7 z-40 hidden h-[70vh] w-[200px] xl:block"
     >
+      {/* 빈 영역은 마우스를 통과시켜 아래 프로젝트 행의 화살표까지 반응하게 하고, 섹션 이름만 누를 수 있게 합니다. */}
       <div ref={railRef} className="absolute top-0 right-0 h-full w-px bg-line">
         <motion.div
           className="absolute top-0 left-0 h-full w-px origin-top bg-ink"
@@ -99,7 +100,7 @@ export function SideProgress({ sections, container }: SideProgressProps) {
               onClick={() => goTo(id)}
               aria-current={i === current ? "location" : undefined}
               className={cn(
-                "cursor-pointer border-0 bg-transparent py-1 pr-6 pl-2 text-right text-[13px] whitespace-nowrap transition-colors duration-200",
+                "pointer-events-auto cursor-pointer border-0 bg-transparent py-1 pr-6 pl-2 text-right text-[13px] whitespace-nowrap transition-colors duration-200",
                 i === current ? "font-semibold text-accent-ink" : i < current ? "text-body" : "text-faint",
                 "hover:text-accent-ink focus-visible:text-accent-ink",
               )}
