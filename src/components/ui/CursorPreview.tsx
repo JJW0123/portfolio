@@ -21,7 +21,7 @@ const safeRight = () => {
   return right - EDGE;
 };
 
-/** 상단 바가 보이는 동안에는 그 아래까지만 올립니다. 스크롤로 숨으면 화면 맨 위까지 쓸 수 있습니다. */
+/** 미리보기가 고정 헤더 아래에 오도록 제한합니다. */
 const safeTop = () => {
   const bar = document.querySelector("header.fixed")?.getBoundingClientRect();
   return Math.max(bar ? bar.bottom : 0, 0) + EDGE;

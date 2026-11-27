@@ -54,7 +54,6 @@ export const HISTORY: HistoryGroup[] = [
 
 const DEVICON = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons";
 
-// TODO(확인 필요): level은 디자인 시안의 임시값입니다. 본인 기준으로 고쳐 주세요.
 export const MAIN_SKILLS: MainSkill[] = [
   {
     name: "Java",

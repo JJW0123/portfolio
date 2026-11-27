@@ -4,6 +4,7 @@
 
 /* 라이트가 기본, 다크는 주황 없이 흑백으로 맞춥니다. (Pencil 시안 기준) */
 :root {
+  --site-header-height: 73px;
   --bg: #ffffff;
   --ink: #111111;
   --body: #3a3a3a;
@@ -56,7 +57,7 @@
 
 @layer base {
   html {
-    scroll-padding-top: 2rem;
+    scroll-padding-top: var(--site-header-height);
     scroll-behavior: smooth;
     /* 상세 패널이 열려 스크롤이 잠길 때 스크롤바 자리가 사라져 화면이 옆으로 밀리지 않게 합니다. */
     scrollbar-gutter: stable;

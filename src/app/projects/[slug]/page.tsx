@@ -41,7 +41,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   return (
     <>
       <TopBar isHome={false} />
-      <main id="top" className="pt-[72px]">
+      <main id="top" className="pt-[var(--site-header-height)]">
         <ProjectDetailView project={projects[index]} prev={prev} next={next} />
       </main>
     </>

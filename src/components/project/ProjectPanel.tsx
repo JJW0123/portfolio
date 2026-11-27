@@ -106,15 +106,15 @@ export function ProjectPanel({ projects, backgroundId }: { projects: Project[]; 
             role="dialog"
             aria-modal="true"
             aria-label={project.title}
-            className="absolute inset-0 overflow-y-auto overscroll-contain bg-bg shadow-[-30px_0_80px_rgb(0_0_0/.18)] md:left-[4vw]"
+            className="absolute inset-0 overflow-y-auto overscroll-contain scroll-pt-[var(--site-header-height)] bg-bg shadow-[-30px_0_80px_rgb(0_0_0/.18)] md:left-[4vw]"
             initial={reduce ? { opacity: 0 } : { x: "100%" }}
             animate={reduce ? { opacity: 1 } : { x: 0 }}
             exit={reduce ? { opacity: 0 } : { x: "100%" }}
             transition={{ duration: reduce ? 0.15 : 0.6, ease: EASE }}
           >
             <div>
-              <div className="sticky top-0 z-50 border-b border-line bg-bg">
-                <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between px-5 md:px-10 lg:px-20">
+              <div className="sticky top-0 z-50 h-[var(--site-header-height)] border-b border-line bg-bg">
+                <div className="mx-auto flex h-full max-w-[1440px] items-center justify-between px-5 md:px-10 lg:px-20">
                   <button
                     ref={closeRef}
                     type="button"

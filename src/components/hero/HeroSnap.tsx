@@ -16,7 +16,7 @@ export function HeroSnap() {
     const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
     let lockedUntil = 0;
 
-    // 경력 섹션으로 넘어갈 때 도착하는 위치. html의 scroll-padding-top만큼 섹션보다 조금 위입니다.
+    // 경력 섹션의 시작을 고정 헤더 하단에 맞춥니다.
     const landing = () => {
       const padding = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
       return target.getBoundingClientRect().top + window.scrollY - padding;

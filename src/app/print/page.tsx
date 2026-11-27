@@ -147,9 +147,9 @@ function ProjectSheets({ project }: { project: Project }) {
         <Sheet label={`${project.title} · 문제 해결`}>
           <p className="m-0 text-[12.5px] font-semibold text-accent-ink">{project.title}</p>
           <h1 className="m-0 mb-4 text-[28px] leading-[1.3] font-semibold tracking-[-0.035em]">문제 해결</h1>
-          <ol className="m-0 list-none border-t border-line p-0">
+          <ol className="m-0 list-none divide-y divide-line p-0">
             {project.steps.map((step, i) => (
-              <li key={i} className="print-avoid grid grid-cols-[36px_minmax(0,1fr)] border-b border-line py-3">
+              <li key={i} className="print-avoid grid grid-cols-[36px_minmax(0,1fr)] py-3 first:pt-0 last:pb-0">
                 <span className="pt-1 font-mono text-[12px] text-accent-ink">{padNumber(i + 1)}</span>
                 <div>
                   <h3 className="m-0 text-[15.5px] leading-[1.45] font-semibold">{step.title}</h3>

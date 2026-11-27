@@ -31,18 +31,10 @@ export function ThemeToggle() {
 }
 
 export function TopBar({ isHome = true }: { isHome?: boolean }) {
-  const [isHidden, setIsHidden] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    let lastY = window.scrollY;
-    const onScroll = () => {
-      const y = window.scrollY;
-      setIsScrolled(y > 8);
-      if (Math.abs(y - lastY) < 6) return;
-      setIsHidden(y > lastY && y > 120);
-      lastY = y;
-    };
+    const onScroll = () => setIsScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -53,12 +45,11 @@ export function TopBar({ isHome = true }: { isHome?: boolean }) {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-[transform,background-color,border-color] duration-300 ease-out-soft motion-reduce:transition-none",
-        isHidden && "-translate-y-full",
+        "fixed inset-x-0 top-0 z-50 h-[var(--site-header-height)] transition-[background-color,border-color] duration-300 ease-out-soft motion-reduce:transition-none",
         isScrolled || !isHome ? "border-b border-line bg-bg" : "border-b border-transparent bg-transparent",
       )}
     >
-      <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between gap-6 px-5 md:px-10 lg:px-20">
+      <div className="mx-auto flex h-full max-w-[1440px] items-center justify-between gap-6 px-5 md:px-10 lg:px-20">
         <Link href="/" className="shrink-0 text-[15px]">
           <span className="font-semibold">{PROFILE.name}</span>
           <span className="text-muted">의 포트폴리오</span>

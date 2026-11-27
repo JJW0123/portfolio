@@ -32,7 +32,12 @@ test.describe("홈", () => {
     const fromPreview = page.getByRole("link", { name: /PDF 내려받기/ });
     await expect(fromPreview).toHaveAttribute("download", "전지웅_포트폴리오.pdf");
     await expect(fromPreview).toHaveAttribute("href", pdfHref ?? "");
-    await expect(page.locator(".print-sheet").first()).toBeVisible();
+    const sheet = page.locator(".print-sheet").first();
+    await expect(sheet).toBeVisible();
+    await expect.poll(() => sheet.evaluate((element) => {
+      const { left, right } = element.getBoundingClientRect();
+      return left >= -1 && right <= document.documentElement.clientWidth + 1;
+    })).toBe(true);
 
     const response = await request.get(encodeURI("/전지웅_포트폴리오.pdf"));
     expect(response.ok()).toBe(true);

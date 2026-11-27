@@ -135,9 +135,9 @@ export function ProjectDetailView({ project, prev, next, scrollContainer, onSele
 
       {project.steps.length > 0 && (
         <Section id="problems" num={num("problems")} title="문제 해결">
-          <ol className="m-0 list-none border-t border-line p-0">
+          <ol className="m-0 list-none divide-y divide-line p-0">
             {project.steps.map((step, i) => (
-              <li key={i} className="flex flex-col gap-6 border-b border-line py-9 md:flex-row md:justify-between md:gap-12">
+              <li key={i} className="flex flex-col gap-6 py-9 first:pt-0 last:pb-0 md:flex-row md:justify-between md:gap-12">
                 <div className="flex min-w-0 flex-1 flex-col gap-3">
                   <h3 className="m-0 flex items-baseline gap-4 text-[22px] leading-[1.45] font-medium">
                     <span className="font-mono text-[13px] font-normal text-muted">{padNumber(i + 1)}</span>

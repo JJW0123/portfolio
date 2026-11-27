@@ -16,7 +16,7 @@ export function PrintScale() {
     const doc = document.querySelector<HTMLElement>(".print-doc");
     if (!doc) return;
     const fit = () => {
-      const scale = Math.min(1, (window.innerWidth - GUTTER) / A4_WIDTH);
+      const scale = Math.min(1, (document.documentElement.clientWidth - GUTTER) / A4_WIDTH);
       doc.style.zoom = scale < 1 ? String(scale) : "";
     };
     fit();
