@@ -107,6 +107,33 @@ html:has(.project-image-zoom[open]) {
   overflow: hidden;
 }
 
+/* 사이드 진행선의 섹션 이름 뒤만 흐리게 해서 아래 글자와 겹쳐도 읽히게 합니다. 가장자리는 서서히 사라져 상자 모양이 보이지 않습니다. */
+.side-progress-label::before {
+  content: "";
+  position: absolute;
+  inset: -10px 4px -10px -22px;
+  z-index: -1;
+  background: color-mix(in srgb, var(--bg) 60%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  mask-image: radial-gradient(closest-side, #000 55%, transparent);
+}
+
+/* 섹션 경계선 같은 가로선이 진행선을 가로지를 때, 진행선 양옆에서 끊겨 보이도록 좁게 흐립니다. */
+.side-progress-rail::before {
+  content: "";
+  position: absolute;
+  inset: -12px -14px;
+  z-index: -1;
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  mask-image:
+    linear-gradient(to right, transparent, #000 35%, #000 65%, transparent),
+    linear-gradient(to bottom, transparent, #000 12px, #000 calc(100% - 12px), transparent);
+  mask-composite: intersect;
+}
+
 @keyframes reveal-contact {
   from { transform: translateY(32px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
@@ -123,5 +150,64 @@ html:has(.project-image-zoom[open]) {
       animation-timeline: --contact;
       animation-range: entry 0% entry 65%;
     }
+  }
+}
+
+/* PDF용 문서(/print). 화면에서는 A4 쪽을 회색 바탕 위에 한 장씩 보여주고, 인쇄할 때는 쪽마다 나눕니다. */
+@page {
+  size: A4;
+  margin: 16mm 17mm 18mm;
+}
+.print-doc {
+  /* 다크 모드를 쓰던 브라우저에서 보거나 인쇄해도 밝은 색으로 나오게 합니다. */
+  --bg: #ffffff;
+  --ink: #111111;
+  --body: #3a3a3a;
+  --muted: #6b6b6b;
+  --faint: #9a9a9a;
+  --line: #e2e2e2;
+  --rule: #111111;
+  --surface: #f1f1ef;
+  --accent: #e8470a;
+  --accent-ink: #c43b0b;
+  color: var(--ink);
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+.print-sheet + .print-sheet {
+  break-before: page;
+}
+.print-avoid {
+  break-inside: avoid;
+}
+@media screen {
+  html:has(.print-doc) body {
+    background: #e6e6e3;
+  }
+  .print-doc {
+    padding: 24px 0 48px;
+  }
+  /* 인쇄할 때의 쪽 크기와 여백을 그대로 옮겨, 화면에서 본 모양이 PDF와 같게 합니다. */
+  .print-sheet {
+    box-sizing: border-box;
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto 24px;
+    padding: 16mm 17mm 18mm;
+    background: var(--bg);
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.08), 0 10px 28px rgb(0 0 0 / 0.07);
+  }
+}
+@media print {
+  html,
+  body {
+    background: #ffffff;
+  }
+  .print-doc {
+    /* 좁은 화면에서 줄여 보여주던 배율을 인쇄할 때는 원래대로 돌립니다. */
+    zoom: 1 !important;
+  }
+  .print-hide {
+    display: none !important;
   }
 }

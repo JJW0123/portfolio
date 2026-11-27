@@ -22,7 +22,7 @@ export function SplitHeadline({ lines }: { lines: readonly string[] }) {
   return (
     <h1 ref={headingRef} className="m-0 text-[clamp(40px,6.1vw,88px)] leading-[1.18] font-semibold tracking-[-0.035em]">
       {lines.map((line, lineIndex) => (
-        <span key={lineIndex} className="block">
+        <span key={lineIndex} className="block first:text-balance">
           {line.split(" ").map((word, wordIndex) => {
             return (
               <span key={wordIndex} className="inline-block overflow-hidden pb-[0.08em] align-bottom">

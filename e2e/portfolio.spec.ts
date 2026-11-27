@@ -8,6 +8,7 @@ test.describe("홈", () => {
     const rows = page.locator("#project ol a");
     await expect(rows).toHaveCount(3);
     await expect(rows.first()).toHaveAttribute("href", "/projects/stock-simulation/");
+    await expect(rows.nth(2)).toHaveAttribute("href", "/projects/hangguet/");
   });
 
   test("필수 섹션이 모두 있다", async ({ page }) => {
@@ -17,9 +18,30 @@ test.describe("홈", () => {
     }
   });
 
+  test("포트폴리오 PDF는 미리보기 페이지에서 보고, 같은 이름으로 내려받는다", async ({ page, request }) => {
+    await page.goto("/");
+    const view = page.locator("#top").getByRole("link", { name: /포트폴리오 PDF/ });
+    await expect(view).toHaveAttribute("href", "/print/");
+    await expect(view).toHaveAttribute("target", "_blank");
+
+    const fromContact = page.locator("#contact").getByRole("link", { name: /PDF 내려받기/ });
+    await expect(fromContact).toHaveAttribute("download", "전지웅_포트폴리오.pdf");
+    const pdfHref = await fromContact.getAttribute("href");
+
+    await page.goto("/print/");
+    const fromPreview = page.getByRole("link", { name: /PDF 내려받기/ });
+    await expect(fromPreview).toHaveAttribute("download", "전지웅_포트폴리오.pdf");
+    await expect(fromPreview).toHaveAttribute("href", pdfHref ?? "");
+    await expect(page.locator(".print-sheet").first()).toBeVisible();
+
+    const response = await request.get(encodeURI("/전지웅_포트폴리오.pdf"));
+    expect(response.ok()).toBe(true);
+    expect(response.headers()["content-type"]).toContain("application/pdf");
+  });
+
   test("경력 세부 내용은 펼친 채로 보인다", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByText("39개 테이블 규모의 ERD와 DB 정의서 설계")).toBeVisible();
+    await expect(page.getByText("도메인별 데이터 관계와 제약 조건을 정의하고 ERD와 DB 정의서 작성")).toBeVisible();
   });
 
   test("프로젝트를 누르면 주소만 바뀌며 패널이 열리고, 뒤로 가기로 닫으면 메인 위치가 그대로다", async ({ page }) => {
@@ -114,11 +136,15 @@ test.describe("프로젝트 상세 페이지", () => {
     const zoom = page.getByRole("dialog", { name: "이미지 확대 보기" });
     const image = zoom.getByRole("img", { name: /초당 API 요청 수/ });
     await expect(zoom).toBeVisible();
-    const sizes = await image.evaluate(async (element: HTMLImageElement) => {
-      await element.decode();
-      return { natural: element.naturalWidth, displayed: element.getBoundingClientRect().width };
-    });
-    expect(sizes).toEqual({ natural: 801, displayed: 801 });
+    // 누른 자리에서 커지는 효과가 끝난 뒤의 크기를 봅니다.
+    await expect
+      .poll(() =>
+        image.evaluate(async (element: HTMLImageElement) => {
+          await element.decode();
+          return { natural: element.naturalWidth, displayed: Math.round(element.getBoundingClientRect().width) };
+        }),
+      )
+      .toEqual({ natural: 801, displayed: 801 });
     await page.keyboard.press("Escape");
     await expect(zoom).not.toBeVisible();
     await expect(trigger).toBeFocused();
@@ -143,7 +169,8 @@ test.describe("프로젝트 상세 페이지", () => {
   });
 
   test("상세 패널에서 Esc는 이미지 확대부터 닫는다", async ({ page }) => {
-    await page.goto("/");
+    // 하이드레이션 전에 누르면 패널 대신 단독 페이지로 이동하므로, 스크립트가 다 붙을 때까지 기다립니다.
+    await page.goto("/", { waitUntil: "networkidle" });
     await page.locator("#project ol a").first().click();
     const panel = page.getByRole("dialog", { name: "가상 주식 시뮬레이션" });
     const imageButton = panel.getByRole("button", { name: /^이미지 확대: 종목 목록/ });
@@ -163,17 +190,26 @@ test.describe("프로젝트 상세 페이지", () => {
     await expect(page).toHaveTitle(/무인 지게차 물류 자동화/);
 
     await page.getByRole("link", { name: /다음 프로젝트/ }).click();
-    await expect(page).toHaveURL("/projects/komit/");
+    await expect(page).toHaveURL("/projects/hangguet/");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("한끗");
   });
 
-  test("내용이 없는 섹션은 숨긴다", async ({ page }) => {
-    await page.goto("/projects/komit/");
-    await expect(page.getByRole("heading", { level: 2, name: "개요" })).toBeVisible();
-    await expect(page.getByRole("heading", { level: 2, name: "문제 해결" })).toHaveCount(0);
+  test("한끗 상세에서 화상 면접과 다시보기 화면을 볼 수 있다", async ({ page }) => {
+    await page.goto("/projects/hangguet/", { waitUntil: "networkidle" });
+    await expect(page.getByRole("heading", { level: 2, name: "문제 해결" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "회고" })).toHaveCount(0);
+
+    const interview = page.getByRole("button", { name: "이미지 확대: 화상 면접 · 실시간 리액션과 인상 점수" });
+    await expect(interview).toBeVisible();
+    await expect.poll(() => interview.getByRole("img").evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
+    await page.getByRole("button", { name: "다음 이미지" }).click();
+    const replay = page.getByRole("button", { name: "이미지 확대: 면접 다시보기 · 타임라인 피드백" });
+    await expect(replay).toBeVisible();
+    await expect.poll(() => replay.getByRole("img").evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
   });
 
   test("숨긴 프로젝트와 없는 주소는 404다", async ({ page }) => {
-    for (const path of ["/projects/sharehouse/", "/projects/no-such-project/"]) {
+    for (const path of ["/projects/komit/", "/projects/sharehouse/", "/projects/no-such-project/"]) {
       const response = await page.goto(path);
       expect(response?.status(), path).toBe(404);
     }

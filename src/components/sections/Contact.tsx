@@ -1,10 +1,12 @@
 import { Section } from "@/components/layout/Section";
 import { PROFILE } from "@/data/profile";
+import { PORTFOLIO_PDF } from "@/lib/site";
 
 export function Contact() {
-  const rows = [
+  const rows: { label: string; text: string; href: string; download?: string }[] = [
     { label: "이메일", text: PROFILE.email, href: `mailto:${PROFILE.email}` },
     { label: "GitHub", text: PROFILE.github.replace("https://", ""), href: PROFILE.github },
+    { label: "포트폴리오", text: "PDF 내려받기 ↓", href: PORTFOLIO_PDF.href, download: PORTFOLIO_PDF.fileName },
   ];
 
   return (
@@ -15,6 +17,7 @@ export function Contact() {
             <span className="text-sm text-muted">{row.label}</span>
             <a
               href={row.href}
+              download={row.download}
               {...(row.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               className="min-w-0 justify-self-start text-lg [overflow-wrap:anywhere] transition-colors hover:text-accent-ink focus-visible:text-accent-ink"
             >

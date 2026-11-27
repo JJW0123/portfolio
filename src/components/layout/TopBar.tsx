@@ -59,8 +59,9 @@ export function TopBar({ isHome = true }: { isHome?: boolean }) {
       )}
     >
       <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between gap-6 px-5 md:px-10 lg:px-20">
-        <Link href="/" className="shrink-0 text-[15px] font-semibold">
-          {PROFILE.name}
+        <Link href="/" className="shrink-0 text-[15px]">
+          <span className="font-semibold">{PROFILE.name}</span>
+          <span className="text-muted">의 포트폴리오</span>
         </Link>
         <nav aria-label="섹션" className="flex min-w-0 items-center gap-7">
           <ul className="m-0 hidden list-none gap-7 p-0 md:flex">

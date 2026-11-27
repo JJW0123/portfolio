@@ -33,6 +33,8 @@ export interface Project {
   period: string;
   team: string;
   role?: string;
+  /** 개요의 담당 업무. 지정하면 상단 역할 표기와 별도로 보여줍니다. */
+  roleDetail?: string;
   /** 목록 행에 보이는 한 줄 소개입니다. 처음 보는 사람도 읽을 수 있게 전문 용어 없이 씁니다. */
   highlight?: string;
   summary: string;
@@ -57,8 +59,10 @@ export interface Project {
 export interface HistoryItem {
   period: string;
   title: string;
-  /** 경력에서는 제목 아래 설명, 교육·자격에서는 오른쪽 끝의 짧은 메모로 보입니다. */
+  /** 경력에서는 제목 아래 설명, 교육·자격에서는 이름 옆의 짧은 회색 메모로 보입니다. */
   subtitle?: string;
+  /** 교육·자격에서 지금 진행 중일 때 이름 옆에 포인트 색으로 붙는 상태 (예: 이수 중) */
+  status?: string;
   details?: string[];
 }
 

@@ -6,6 +6,13 @@ export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3
 export const SITE_TITLE = `${PROFILE.name} 포트폴리오`;
 export const SITE_DESCRIPTION = `${PROFILE.role} ${PROFILE.name}의 포트폴리오입니다. ${PROFILE.heroLines.join(" ")}`;
 
+/**
+ * `npm run pdf`로 만든 포트폴리오 PDF. 파일 이름 자체를 한글로 두어,
+ * 브라우저 PDF 보기에서 저장하든 내려받기 링크로 받든 같은 이름으로 저장되게 합니다.
+ */
+const PDF_FILE_NAME = `${PROFILE.name}_포트폴리오.pdf`;
+export const PORTFOLIO_PDF = { href: `/${PDF_FILE_NAME}`, fileName: PDF_FILE_NAME, preview: "/print/" } as const;
+
 export const OG_IMAGE = { url: "/og.png", width: 1200, height: 630, alt: "Backend Developer Portfolio" } as const;
 
 // 기본 테마가 다크에서 라이트로 바뀌어, 예전에 저장된 선택을 이어받지 않도록 키를 바꿨습니다.

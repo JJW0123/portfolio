@@ -37,6 +37,7 @@ interface ProjectDetailViewProps {
 export function ProjectDetailView({ project, prev, next, scrollContainer, onSelectProject, onScrollTop }: ProjectDetailViewProps) {
   const isPanel = Boolean(scrollContainer);
   const slides = project.media ?? [];
+  const roleDetail = project.roleDetail ?? project.role;
   const { retroMedia } = project;
   const { openImage, imageZoom } = useImageZoom();
 
@@ -74,9 +75,9 @@ export function ProjectDetailView({ project, prev, next, scrollContainer, onSele
           <InfoRow label="소개">
             <p className="m-0 text-lg leading-[1.7]">{project.summary}</p>
           </InfoRow>
-          {project.role && (
+          {roleDetail && (
             <InfoRow label="맡은 일">
-              <p className="m-0 text-base leading-[1.7] text-body">{project.role}</p>
+              <p className="m-0 text-base leading-[1.7] text-body">{roleDetail}</p>
             </InfoRow>
           )}
           {project.stack.length > 0 && (
@@ -110,7 +111,12 @@ export function ProjectDetailView({ project, prev, next, scrollContainer, onSele
 
       {project.metrics.length > 0 && (
         <Section id="results" num={num("results")} title="성과">
-          <dl className={cn("m-0 grid gap-8 md:gap-0", project.metrics.length === 2 ? "md:grid-cols-2" : "md:grid-cols-3")}>
+          <dl
+            className={cn(
+              "m-0 grid gap-8 md:gap-0",
+              project.metrics.length > 1 && (project.metrics.length === 2 ? "md:grid-cols-2" : "md:grid-cols-3"),
+            )}
+          >
             {project.metrics.map((metric, i) => (
               <div
                 key={metric.label}
@@ -173,7 +179,9 @@ export function ProjectDetailView({ project, prev, next, scrollContainer, onSele
                 type="button"
                 aria-haspopup="dialog"
                 aria-label={`이미지 확대: ${retroMedia.caption ?? retroMedia.alt}`}
-                onClick={(event) => openImage(retroMedia, event.currentTarget, true)}
+                onClick={(event) =>
+                  openImage({ items: [retroMedia], index: 0, trigger: event.currentTarget, originalSize: true })
+                }
                 className="relative block w-full cursor-zoom-in border-0 bg-transparent p-0"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element -- 정적 내보내기에서 원본을 사용합니다. */}
