@@ -145,7 +145,7 @@ export function ProjectDetailView({ project, prev, next, scrollContainer, onSele
                   </h3>
                   <p className="m-0 max-w-[680px] text-base leading-[1.7] whitespace-pre-line text-body">
                     {step.lead}
-                    {step.strong && <span className="text-ink">{step.strong}</span>}
+                    {step.strong && <span className="font-semibold text-ink">{step.strong}</span>}
                     {step.tail}
                   </p>
                   {step.result && (
